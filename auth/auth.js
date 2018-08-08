@@ -1,7 +1,7 @@
 const passport = require('passport');
 const { BasicStrategy } = require('passport-http');
 const { Strategy: BearerStrategy } = require('passport-http-bearer');
-const { Clients, AccessTokens } = require('../models');
+const { Client, AccessToken } = require('../models');
 const validate = require('./validate');
 
 /**
@@ -16,7 +16,7 @@ const validate = require('./validate');
  * the specification, in practice it is quite common.
  */
 passport.use(new BasicStrategy((clientId, clientSecret, done) => {
-  Clients.findOne({ clientId })
+  Client.findOne({ clientId })
     .exec()
     .then(client => validate.client(client, clientSecret))
     .then(client => done(null, client))
@@ -35,7 +35,7 @@ passport.use(new BasicStrategy((clientId, clientSecret, done) => {
  * illustrative purposes
  */
 passport.use(new BearerStrategy((accessToken, done) => {
-  AccessTokens.find(accessToken)
+  AccessToken.find(accessToken)
     .then(token => validate.token(token, accessToken))
     .then(token => done(null, token, { scope: token.roles }))
     .catch(() => done(null, false));

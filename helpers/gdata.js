@@ -3,8 +3,8 @@ const db = require('../models');
 
 mongoose.connect('mongodb://admin:pass@localhost:27017/biligger', { useNewUrlParser: true });
 
-db.Users.remove({}).then(() => {
-  const user = new db.Users({
+db.User.remove({}).then(() => {
+  const user = new db.User({
     username: 'bob',
     password: 'secret',
     email: 'email@email',
@@ -17,8 +17,8 @@ db.Users.remove({}).then(() => {
   });
 });
 
-db.Clients.remove({}).exec().then(
-  db.Clients.create({
+db.Client.remove({}).exec().then(
+  db.Client.create({
     name: 'mobile',
     clientId: 'abc123',
     clientSecret: 'ssh-secret',
@@ -28,7 +28,7 @@ db.Clients.remove({}).exec().then(
 
 
 setTimeout(() => {
-  db.Clients.findOne({ clientId: 'abc123' }).exec().then((client) => {
+  db.Client.findOne({ clientId: 'abc123' }).exec().then((client) => {
     console.log(client.clientId);
   }).then(
     () => mongoose.disconnect(),

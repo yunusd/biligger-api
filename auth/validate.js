@@ -6,10 +6,10 @@ const utils = require('./utils');
 const logger = require('../config/winston');
 
 const {
-  Users,
-  Clients,
-  RefreshTokens,
-  AccessTokens,
+  User,
+  Client,
+  RefreshToken,
+  AccessToken,
 } = require('../models');
 
 /** Validate object to attach all functions to  */
@@ -41,7 +41,7 @@ validate.logAndThrow = (msg) => {
  */
 validate.user = (user, password) => {
   validate.userExists(user);
-  return Users.findById(user.id).exec()
+  return User.findById(user.id).exec()
     .then((dbUser) => {
       if (!dbUser.verifyPassword(password)) {
         return validate.logAndThrow('The password does not match');
@@ -73,7 +73,7 @@ validate.userExists = (user) => {
  */
 validate.client = (client, clientSecret) => {
   validate.clientExists(client);
-  return Clients.findById(client.id).exec()
+  return Client.findById(client.id).exec()
     .then((dbClient) => {
       if (!dbClient.verifySecret(clientSecret)) {
         return validate.logAndThrow('Client secret does not matches');
@@ -106,11 +106,11 @@ validate.clientExists = (client) => {
 validate.token = (token, accessToken) => {
   utils.verifyToken(accessToken);
   if (token.userID != null) {
-    return Users.findById(token.userID)
+    return User.findById(token.userID)
       .then(user => validate.userExists(user))
       .then(user => user);
   }
-  return Clients.findOne({ clientId: token.clientID })
+  return Client.findOne({ clientId: token.clientID })
     .then(client => validate.clientExists(client))
     .then(client => client);
 };
@@ -149,7 +149,7 @@ validate.isRefreshToken = ({ scope }) => scope != null && scope.indexOf('offline
  */
 validate.generateRefreshToken = ({ userID, clientID, scope }) => {
   const refreshToken = utils.createToken({ sub: userID, exp: config.refreshToken.expiresIn });
-  return RefreshTokens.save(refreshToken, userID, clientID, scope)
+  return RefreshToken.save(refreshToken, userID, clientID, scope)
     .then(() => refreshToken);
 };
 
@@ -163,7 +163,7 @@ validate.generateRefreshToken = ({ userID, clientID, scope }) => {
 validate.generateToken = ({ userID, clientID, scope }) => {
   const token = utils.createToken({ sub: userID, exp: config.token.expiresIn });
   const expiration = config.token.calculateExpirationDate();
-  return AccessTokens.save(token, expiration, userID, clientID, scope)
+  return AccessToken.save(token, expiration, userID, clientID, scope)
     .then(() => token);
 };
 

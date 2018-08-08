@@ -8,7 +8,7 @@ const passport = require('passport');
 const oauth2orize = require('oauth2orize');
 
 const config = require('../config');
-const { Users, RefreshTokens } = require('../models');
+const { User, RefreshToken } = require('../models');
 const validate = require('./validate');
 
 
@@ -26,7 +26,7 @@ const expiresIn = { expires_in: config.token.expiresIn };
  * application issues an access token on behalf of the user who authorized the code.
  */
 server.exchange(oauth2orize.exchange.password((client, username, password, scope, done) => {
-  Users.findOne({ username })
+  User.findOne({ username })
     .exec()
     .then(user => validate.user(user, password))
     .then(user => validate.generateTokens({
@@ -49,7 +49,7 @@ server.exchange(oauth2orize.exchange.password((client, username, password, scope
  * token on behalf of the client who authorized the code
  */
 server.exchange(oauth2orize.exchange.refreshToken((client, refreshToken, scope, done) => {
-  RefreshTokens.find(refreshToken)
+  RefreshToken.find(refreshToken)
     .then((foundRefreshToken) => {
       validate.refreshToken(foundRefreshToken, refreshToken, client);
       return foundRefreshToken;
