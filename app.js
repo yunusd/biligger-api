@@ -1,3 +1,4 @@
+require('express-async-errors');
 const mongoose = require('mongoose');
 const express = require('express');
 const expressSession = require('express-session');
@@ -17,6 +18,7 @@ const logger = require('./config/winston');
 // Router require
 const authRouter = require('./routes/auth');
 const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
 logger.info('Using MemoryStore for the session');
 const { MemoryStore } = expressSession;
@@ -49,12 +51,13 @@ require('./auth/auth');
 // Router
 app.use('/api', indexRouter);
 app.use('/oauth', authRouter);
+app.use('/api', usersRouter);
 
 // Catch all for error messages.
 app.use((err, req, res, next) => {
   if (err) {
     if (err.status == null) {
-      logger.error('Internal unexpected error from: ', err.stack);
+      logger.error(err.stack, 'Internal unexpected error from' );
       res.status(500);
       res.json(err);
     } else {

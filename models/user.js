@@ -18,6 +18,7 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
   username: {
     type: String,
+    lowercase: true,
     unique: true,
     required: true,
   },
@@ -31,6 +32,7 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
+    lowercase: true,
     unique: true,
     required: true,
   },
@@ -44,6 +46,11 @@ const userSchema = new Schema({
     required: true,
   },
   bio: String,
+});
+
+userSchema.pre('save', function (next) {
+  if (this.roles !== 'user') this.roles = 'user';
+  next();
 });
 
 userSchema.methods.encryptPassword = function (password) {
