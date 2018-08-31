@@ -1,56 +1,17 @@
 const express = require('express');
-const { check, validationResult, body } = require('express-validator/check');
+const passport = require('passport');
+const { validationResult } = require('express-validator/check');
+const { validateRegister, validateUserEdit } = require('../middlewares/validate');
 
 const { User } = require('../models');
+const scope = require('../middlewares/scope');
+const logger = require('../config/winston');
+
+const encrypt = require('../helpers/encrypt');
 
 const router = express.Router();
 
-const regexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d].{7,}$/;
-
-const weakPass = [
-  '1234567',
-  '123456789',
-  '987654321',
-  '7654321',
-  '3456789',
-  'password',
-  'şifre',
-  'sifre',
-];
-
-router.post('/register', [
-  check('username')
-    .exists()
-    .isLength(2),
-  body('username')
-    .custom(value => User.findOne({ username: value }).exec()
-      .then((user) => {
-        if (user) {
-          return Promise.reject('Kullanıcı adı zaten var.');
-        }
-      })),
-  check('password', 'Şifre en az 7 karakter uzunluğunda ve en az 1 tane küçük harf, büyük harf ve sayıdan oluşmalı.')
-    .exists()
-    .not().isIn(weakPass)
-    .withMessage('Şifrenizde tahmin edilebilir kelimeler kullanmayın.')
-    .matches(regexp),
-  check('email', 'Geçerli bir email adresi girin')
-    .isEmail()
-    .normalizeEmail(),
-  body('email')
-    .custom(value => User.findOne({ email: value }).exec()
-      .then((user) => {
-        if (user) {
-          return Promise.reject('E-posta zaten var.');
-        }
-      }))
-    .normalizeEmail(),
-  check('degree', 'En az 10 karakter olmalı')
-    .isLength({ min: 4 }),
-  check('bio', 'En az 50 karakter olmalı')
-    .optional(true)
-    .isLength({ min: 50 }),
-], async (req, res) => {
+router.post('/register', validateRegister, async (req, res) => {
   const errors = await validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -65,6 +26,48 @@ router.post('/register', [
     });
     await user.save();
     return res.status(200).json({ success: 'Kayıt Başarılı' });
+  }
+});
+
+router.put('/user/edit', validateUserEdit, passport.authenticate('bearer', { session: false }), scope('user'), async (req, res) => {
+  const errors = await validationResult(req);
+
+  if (!errors.isEmpty()) {
+    res.status(422).json({ errors: errors.array() });
+  } else {
+    // If registired email and given email doesn't equal will try to find that user
+    // and if it finds, return error.
+    if (req.body.email !== req.user.email) {
+      const emailExists = await User.findOne({ email: req.body.email });
+      if (emailExists) return res.status(422).json({ errors: 'E-posta zaten var.' });
+    }
+    const query = { username: req.user.username };
+
+    // Encryption proccess is handled by module.
+    // Because mongoose doesn't support update virtual fields.
+    // TODO: Implement update virtual fields when mongoose support.
+    const pass = await encrypt(req.body.password);
+
+    // Finding user with given query and
+    // because of 'new:true' option return updated user.
+    const user = await User.findOneAndUpdate(query, {
+      salt: pass.salt,
+      hashedPassword: pass.encryptedPassword,
+      email: req.body.email,
+      degree: req.body.degree,
+      bio: req.body.bio,
+    }, { new: true }).exec();
+
+    if (!user) {
+      logger.error('Kullanıcı bulunamadı');
+      return res.status('401').json({ error: 'Kullanıcı bulunamadı' });
+    }
+    return res.send({
+      username: user.username,
+      email: user.email,
+      degree: user.degree,
+      bio: user.bio,
+    });
   }
 });
 

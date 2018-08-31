@@ -18,14 +18,15 @@
     "express-validator": "^5.3.0",
     "helmet": "^3.13.0",
     "jsonwebtoken": "^8.3.0",
-    "mongoose": "^5.2.6",
+    "mongoose": "^5.2.7",
     "morgan": "^1.9.0",
     "oauth2orize": "^1.11.0",
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "passport-http-bearer": "^1.0.1",
     "passport-oauth2-client-password": "^0.1.2",
-    "winston": "^3.0.0"
+    "winston": "^3.0.0",
+    "xregexp": "^4.2.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
