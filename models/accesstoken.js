@@ -49,6 +49,7 @@ exports.delete = (token) => {
   try {
     const id = jwt.decode(token).jti;
     const deletedToken = tokens[id];
+    delete tokens[id];
     return Promise.resolve(deletedToken);
   } catch (err) {
     return Promise.resolve(undefined);

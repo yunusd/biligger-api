@@ -1,12 +1,8 @@
 require('express-async-errors');
-const mongoose = require('mongoose');
 const express = require('express');
 const expressSession = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -57,7 +53,7 @@ app.use('/api', usersRouter);
 app.use((err, req, res, next) => {
   if (err) {
     if (err.status == null) {
-      logger.error(err.stack, 'Internal unexpected error from' );
+      logger.error(err.stack, 'Internal unexpected error from');
       res.status(500);
       res.json(err);
     } else {
@@ -69,19 +65,4 @@ app.use((err, req, res, next) => {
   }
 });
 
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://admin:pass@localhost:27017/biligger', { useNewUrlParser: true });
-const db = mongoose.connection;
-db.on('error', logger.error.bind(logger, 'Connection error: '));
-db.once('open', () => {
-  logger.info('Database connection is estableshed');
-});
-
-const port = process.env.PORT || '3000';
-
-const options = {
-  key: fs.readFileSync(path.join(__dirname, '/certs/privatekey.pem')),
-  cert: fs.readFileSync(path.join(__dirname, '/certs/certificate.pem')),
-};
-https.createServer(options, app).listen(port);
-logger.info(`API is running on ${port}`);
+module.exports = app;

@@ -1,11 +1,12 @@
 {
   "name": "biligger",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./bin/www",
+    "test": "jest",
+    "test:watch": "npm test -- --watchAll --detectOpenHandles --verbose --no-cache --runInBand"
   },
   "author": "Yunus Demirpolat",
   "license": "MIT",
@@ -29,8 +30,12 @@
     "xregexp": "^4.2.0"
   },
   "devDependencies": {
+    "babel-eslint": "^9.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0"
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jest": "^21.22.0",
+    "jest": "^23.5.0",
+    "supertest": "^3.1.0"
   }
 }

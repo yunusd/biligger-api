@@ -76,4 +76,9 @@ router.get('/users', async (req, res) => {
   return res.send({ user });
 });
 
+router.delete('/user/delete', passport.authenticate('bearer', { session: false }), scope('user'), async (req, res) => {
+  await User.deleteOne({ username: req.user.username });
+  res.status(410).send({ success: 'Kullanıcı silindi' });
+});
+
 module.exports = router;

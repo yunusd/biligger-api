@@ -16,7 +16,7 @@ const {
 const validate = Object.create(null);
 
 /** Suppress tracing for things like unit testing */
-const supressTrace = process.env.OAUTHRECIPES_SURPRESS_TRACE === true;
+const supressTrace = process.env.OAUTHRECIPES_SURPRESS_TRACE === 'true';
 
 /**
  * Log the message and throw it as an Error
@@ -44,7 +44,7 @@ validate.user = (user, password) => {
   return User.findById(user.id).exec()
     .then((dbUser) => {
       if (!dbUser.verifyPassword(password)) {
-        return validate.logAndThrow('The password does not match');
+        return validate.logAndThrow('User password does not match');
       }
       return dbUser;
     });
@@ -57,8 +57,8 @@ validate.user = (user, password) => {
  * @returns {Object} The user if valid
  */
 validate.userExists = (user) => {
-  if (user === null) {
-    return validate.logAndThrow('The user does not exist');
+  if (user == null) {
+    return validate.logAndThrow('User does not exist');
   }
   return user;
 };
@@ -89,7 +89,7 @@ validate.client = (client, clientSecret) => {
  * @returns {Object} The client if valid
  */
 validate.clientExists = (client) => {
-  if (client === null) {
+  if (client == null) {
     return validate.logAndThrow('Client does not exist');
   }
   return client;
@@ -130,7 +130,7 @@ validate.refreshToken = (token, refreshToken, client) => {
   if (client.clientId !== token.clientID) {
     validate.logAndThrow('RefreshToken clientID does not match client id given');
   }
-  return refreshToken;
+  return token;
 };
 
 /**
@@ -190,18 +190,16 @@ validate.generateTokens = (authCode) => {
  * @param   {Object}  token - The token to check
  * @returns {Promise} Resolved with the token if it is a valid token otherwise rejected with error
  */
-validate.tokenForHttp = (token) => {
-  Promise((resolve, reject) => {
-    try {
-      utils.verifyToken(token);
-    } catch (err) {
-      const error = new Error('invalid_token');
-      error.status = 400;
-      reject(error);
-    }
-    resolve(token);
-  });
-};// LOOK LATER
+validate.tokenForHttp = token => new Promise((resolve, reject) => {
+  try {
+    utils.verifyToken(token);
+  } catch (err) {
+    const error = new Error('invalid_token');
+    error.status = 400;
+    reject(error);
+  }
+  resolve(token);
+});// LOOK LATER
 
 /**
  * Given a token this will return the token if it is not null. Otherwise this will throw a
