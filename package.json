@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon ./bin/www",
     "test": "jest",
-    "test:watch": "npm test -- --watchAll --detectOpenHandles --verbose --no-cache --runInBand"
+    "test:watch": "npm test -- --watchAll --detectOpenHandles --verbose --no-cache --runInBand",
+    "test:watchOne": "npm test ./test/routes/post.test.js -- --watchAll --detectOpenHandles --verbose"
   },
   "author": "Yunus Demirpolat",
   "license": "MIT",

@@ -1,5 +1,5 @@
-require('express-async-errors');
 const express = require('express');
+require('express-async-errors');
 const expressSession = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -15,6 +15,7 @@ const logger = require('./config/winston');
 const authRouter = require('./routes/auth');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const postsRouter = require('./routes/posts');
 
 logger.info('Using MemoryStore for the session');
 const { MemoryStore } = expressSession;
@@ -48,6 +49,7 @@ require('./auth/auth');
 app.use('/api', indexRouter);
 app.use('/oauth', authRouter);
 app.use('/api', usersRouter);
+app.use('/api', postsRouter);
 
 // Catch all for error messages.
 app.use((err, req, res, next) => {
@@ -55,10 +57,18 @@ app.use((err, req, res, next) => {
     if (err.status == null) {
       logger.error(err.stack, 'Internal unexpected error from');
       res.status(500);
-      res.json(err);
+      res.json({
+        message: err.message,
+        type: err.code,
+        stack: err.stack,
+      });
     } else {
       res.status(err.status);
-      res.json(err);
+      res.json({
+        message: err.message,
+        type: err.code,
+        stack: err.stack,
+      });
     }
   } else {
     next();

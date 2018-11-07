@@ -1,6 +1,6 @@
 const { check, body } = require('express-validator/check');
 
-const { User } = require('../models');
+const { User, Post } = require('../models');
 const { passwordMatch } = require('../config');
 
 module.exports.validateRegister = [
@@ -64,4 +64,13 @@ module.exports.validateUserEdit = [
   check('bio', 'En az 50 karakter olmalı')
     .optional(true)
     .isLength({ min: 50 }),
+];
+
+module.exports.validatePost = [
+  check('title', 'Başlık en az 10 karakter olmalı')
+    .exists()
+    .isLength({ min: 10 }),
+  check('url', 'Geçerli bir url giriniz')
+    .exists()
+    .isURL(),
 ];
