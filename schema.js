@@ -2,7 +2,7 @@ const { makeExecutableSchema } = require('apollo-server-express');
 const { merge } = require('lodash');
 
 const User = require('./types/User');
-const userQueries = require('./queires/user');
+const userQueries = require('./queries/user');
 const registerUserMutation = require('./mutations/user');
 
 const Root = `
