@@ -3,7 +3,6 @@ require('express-async-errors');
 const expressSession = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const morgan = require('morgan');
 
@@ -13,9 +12,6 @@ const logger = require('./config/winston');
 
 // Router require
 const authRouter = require('./routes/auth');
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const postsRouter = require('./routes/posts');
 
 logger.info('Using MemoryStore for the session');
 const { MemoryStore } = expressSession;
@@ -24,7 +20,6 @@ const { MemoryStore } = expressSession;
 const app = express();
 app.use(helmet());
 app.use(morgan('combined', { stream: logger.stream })); // Logger stream from winston
-app.use(cookieParser());
 
 // Session Config
 app.use(expressSession({
@@ -35,6 +30,7 @@ app.use(expressSession({
   key: 'authorization.sid',
   cookie: {
     maxAge: 3600000 * 24 * 7 * 52,
+    secure: true,
     httpOnly: true,
   },
 }));
@@ -45,11 +41,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require('./auth/auth');
-// Router
-app.use('/api', indexRouter);
+
 app.use('/oauth', authRouter);
-app.use('/api', usersRouter);
-app.use('/api', postsRouter);
+
+app.use('/api', (req, res, next) => {
+  passport.authenticate('bearer', { session: false }, (err, user) => {
+    if (err) return next(err);
+    if (user) {
+      req.login(user, (error) => {
+        if (error) return next(error);
+      });
+    }
+    return next();
+  })(req, res, next);
+});
 
 // Catch all for error messages.
 app.use((err, req, res, next) => {

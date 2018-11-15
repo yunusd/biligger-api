@@ -1,7 +1,7 @@
 const passport = require('passport');
 const { BasicStrategy } = require('passport-http');
 const { Strategy: BearerStrategy } = require('passport-http-bearer');
-const { Client, AccessToken } = require('../models');
+const { Client, AccessToken, User } = require('../models');
 const validate = require('./validate');
 
 /**
@@ -40,3 +40,26 @@ passport.use(new BearerStrategy((accessToken, done) => {
     .then(token => done(null, token, { scope: token.roles }))
     .catch(() => done(null, false));
 }));
+
+// Register serialialization and deserialization functions.
+//
+// When a client redirects a user to user authorization endpoint, an
+// authorization transaction is initiated.  To complete the transaction, the
+// user must authenticate and approve the authorization request.  Because this
+// may involve multiple HTTPS request/response exchanges, the transaction is
+// stored in the session.
+//
+// An application must supply serialization functions, which determine how the
+// client object is serialized into the session.  Typically this will be a
+// simple matter of serializing the client's ID, and deserializing by finding
+// the client by ID from the database.
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => user)
+    .then(user => done(null, user))
+    .catch(err => done(err));
+});

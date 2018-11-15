@@ -21,7 +21,7 @@ const options = {
   cert: fs.readFileSync(path.join(__dirname, '../certs/certificate.pem')),
 };
 
-apolloServer.applyMiddleware({ app }); // Apollo Server Middleware
+apolloServer.applyMiddleware({ app, path: '/api' }); // Apollo Server Middleware
 
 https.createServer(options, app).listen(port);
 logger.info(`API is running on ${port}`);
