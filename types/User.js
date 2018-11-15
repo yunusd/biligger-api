@@ -1,9 +1,10 @@
 const User = `
+  directive @isAuthorized on FIELD_DEFINITION
   type User {
     id: ID!,
-    username: String,
+    username: String @isAuthorized,
     password: String,
-    email: String,
+    email: String @isAuthorized,
     degree: String,
     roles: String,
     bio: String,

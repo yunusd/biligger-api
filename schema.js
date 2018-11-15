@@ -5,6 +5,8 @@ const User = require('./types/User');
 const userQueries = require('./queries/user');
 const registerUserMutation = require('./mutations/user');
 
+const { AuthorizeDirective } = require('./directives/auth');
+
 const Root = `
   type Query {
     dummy: String
@@ -32,6 +34,9 @@ const schema = makeExecutableSchema({
     User,
   ],
   resolvers,
+  schemaDirectives: {
+    isAuthorized: AuthorizeDirective,
+  },
 });
 
 module.exports = schema;

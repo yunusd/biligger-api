@@ -44,13 +44,12 @@ require('./auth/auth');
 
 app.use('/oauth', authRouter);
 
+// Authenticate user
 app.use('/api', (req, res, next) => {
   passport.authenticate('bearer', { session: false }, (err, user) => {
     if (err) return next(err);
     if (user) {
-      req.login(user, (error) => {
-        if (error) return next(error);
-      });
+      req.login(user, error => ((error) ? next(error) : null));
     }
     return next();
   })(req, res, next);

@@ -4,7 +4,7 @@ const schema = require('./schema');
 const server = new ApolloServer({
   schema,
   context: ({ req }) => ({
-    isAuth: req.user,
+    isAuthenticated: req.user,
   }),
 });
 
