@@ -21,6 +21,10 @@ const userSchema = new Schema({
     lowercase: true,
     unique: true,
     required: true,
+    validate: {
+      validator: async username => await User.where({ username }).countDocuments() === 0,
+      message: ({ value }) => `Username (${value}) has already been taken.`,
+    },
   },
   hashedPassword: {
     type: String,
@@ -35,6 +39,10 @@ const userSchema = new Schema({
     lowercase: true,
     unique: true,
     required: true,
+    validate: {
+      validator: async email => await User.where({ email }).countDocuments() === 0,
+      message: ({ value }) => `Email (${value}) has already been taken.`,
+    },
   },
   degree: {
     type: String,

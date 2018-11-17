@@ -2,8 +2,9 @@ const User = `
   directive @isAuthorized on FIELD_DEFINITION
   type User {
     id: ID!,
-    username: String @isAuthorized,
+    username: String,
     password: String,
+    passwordCheck:  String,
     email: String @isAuthorized,
     degree: String,
     roles: String,
@@ -15,7 +16,7 @@ const User = `
   }
 
   extend type Mutation {
-    registerUser(username: String, password: String, email: String, degree: String, bio: String): User
+    registerUser(username: String!, password: String!, passwordCheck: String!, email: String!, degree: String, bio: String): User
   }
 `;
 
