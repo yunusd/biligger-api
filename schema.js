@@ -26,6 +26,7 @@ const resolvers = merge(
   userQueries,
   // mutations
   registerUserMutation,
+  // editUserMutation,
 );
 
 const schema = makeExecutableSchema({
