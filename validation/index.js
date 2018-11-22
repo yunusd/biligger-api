@@ -35,3 +35,18 @@ module.exports.editUserValidation = Joi.object().keys({
   degree: Joi.string().min(3).max(30),
   bio: Joi.string().min(30).max(300),
 });
+
+module.exports.postValidation = Joi.object().keys({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+  url: Joi.string().uri(),
+  author: Joi.string().min(24).max(24),
+});
+
+module.exports.editPostValidation = Joi.object().keys({
+  id: Joi.string().min(24).max(24),
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+  url: Joi.string().uri(),
+  author: Joi.string().min(24).max(24),
+});

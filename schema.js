@@ -2,8 +2,13 @@ const { makeExecutableSchema } = require('apollo-server-express');
 const { merge } = require('lodash');
 
 const User = require('./types/User');
+const Post = require('./types/Post');
+
 const userQueries = require('./queries/user');
-const registerUserMutation = require('./mutations/user');
+const postQueries = require('./queries/post');
+
+const userMutation = require('./mutations/user');
+const postMutation = require('./mutations/post');
 
 const { AuthorizeDirective } = require('./directives/auth');
 
@@ -24,8 +29,10 @@ const resolvers = merge(
   {},
   // queries
   userQueries,
+  postQueries,
   // mutations
-  registerUserMutation,
+  userMutation,
+  postMutation,
   // editUserMutation,
 );
 
@@ -33,6 +40,7 @@ const schema = makeExecutableSchema({
   typeDefs: [
     Root,
     User,
+    Post,
   ],
   resolvers,
   schemaDirectives: {
