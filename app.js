@@ -13,11 +13,21 @@ const logger = require('./config/winston');
 // Router require
 const authRouter = require('./routes/auth');
 
+// HRBAC
+const rbac = require('./auth/hrbac');
+
 logger.info('Using MemoryStore for the session');
 const { MemoryStore } = expressSession;
 
 // Express Config
 const app = express();
+
+rbac.init();
+
+app.use(async (req, res, next) => {
+  req.scope = rbac;
+  next();
+});
 app.use(helmet());
 app.use(morgan('combined', { stream: logger.stream })); // Logger stream from winston
 

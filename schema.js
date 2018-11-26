@@ -10,7 +10,7 @@ const postQueries = require('./queries/post');
 const userMutation = require('./mutations/user');
 const postMutation = require('./mutations/post');
 
-const { AuthorizeDirective } = require('./directives/auth');
+const { AuthorizeDirective, ScopeDirective } = require('./directives/auth');
 
 const Root = `
   type Query {
@@ -45,6 +45,7 @@ const schema = makeExecutableSchema({
   resolvers,
   schemaDirectives: {
     isAuthorized: AuthorizeDirective,
+    hasScope: ScopeDirective,
   },
 });
 

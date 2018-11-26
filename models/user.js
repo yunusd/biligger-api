@@ -48,12 +48,12 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  bio: String,
   roles: {
     type: String,
     default: 'user',
     required: true,
   },
-  bio: String,
 });
 
 userSchema.pre('save', function (next) {

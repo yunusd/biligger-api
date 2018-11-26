@@ -12,7 +12,7 @@ const User = `
   }
 
   extend type Query {
-    getUser(username: String!): User,
+    getUser(id: ID!): User,
   }
 
   extend type Mutation {

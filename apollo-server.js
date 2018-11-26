@@ -5,6 +5,7 @@ const server = new ApolloServer({
   schema,
   context: ({ req }) => ({
     isAuthenticated: req.user,
+    scope: req.scope,
   }),
 });
 
