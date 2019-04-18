@@ -7,7 +7,7 @@
     "start": "nodemon ./bin/www",
     "test": "jest",
     "test:watch": "npm test -- --watchAll --detectOpenHandles --verbose --no-cache --runInBand",
-    "test:watchOne": "npm test ./test/routes/post.test.js -- --watchAll --detectOpenHandles --verbose"
+    "test:watchOne": "npm test ./test/queries/post/getPost.test.js -- --watchAll --detectOpenHandles --verbose"
   },
   "author": "Yunus Demirpolat",
   "license": "MIT",
@@ -15,6 +15,7 @@
     "apollo-server-express": "^2.2.0",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.5",
     "express": "^4.16.3",
     "express-async-errors": "^3.0.0",
     "express-session": "^1.15.6",
@@ -37,6 +38,7 @@
     "xregexp": "^4.2.0"
   },
   "devDependencies": {
+    "apollo-server-testing": "^2.4.8",
     "babel-eslint": "^9.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",

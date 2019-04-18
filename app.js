@@ -4,6 +4,7 @@ const expressSession = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const helmet = require('helmet');
+const cors = require('cors');
 const morgan = require('morgan');
 
 // Custom Config
@@ -12,6 +13,7 @@ const logger = require('./config/winston');
 
 // Router require
 const authRouter = require('./routes/auth');
+const authUserRouter = require('./routes/index');
 
 // HRBAC
 const rbac = require('./auth/hrbac');
@@ -21,6 +23,17 @@ const { MemoryStore } = expressSession;
 
 // Express Config
 const app = express();
+app.use(cors());
+// const whitelist = ['http://localhost:3001'];
+// // const corsOptions = {
+// //   origin(origin, callback) {
+// //     if (whitelist.indexOf(origin) !== -1) {
+// //       callback(null, true);
+// //     } else {
+// //       callback(new Error('Not allowed by CORS'));
+// //     }
+// //   },
+// // };
 
 rbac.init();
 
@@ -53,6 +66,7 @@ app.use(passport.session());
 require('./auth/auth');
 
 app.use('/oauth', authRouter);
+app.use('/oauth/user', authUserRouter);
 
 // Authenticate user
 app.use('/api', (req, res, next) => {

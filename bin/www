@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
+const http = require('http');
+// const fs = require('fs');
+// const path = require('path');
 const app = require('../app');
 const apolloServer = require('../apollo-server');
 const logger = require('../config/winston');
@@ -15,13 +15,13 @@ db.once('open', () => {
 });
 
 const port = process.env.PORT || '3000';
-
-const options = {
-  key: fs.readFileSync(path.join(__dirname, '../certs/privatekey.pem')),
-  cert: fs.readFileSync(path.join(__dirname, '../certs/certificate.pem')),
-};
+// DISABLED HTTPS TEMPORARY
+// const options = {
+//   key: fs.readFileSync(path.join(__dirname, '../certs/privatekey.pem')),
+//   cert: fs.readFileSync(path.join(__dirname, '../certs/certificate.pem')),
+// };
 
 apolloServer.applyMiddleware({ app, path: '/api' }); // Apollo Server Middleware
 
-https.createServer(options, app).listen(port);
+http.createServer(app).listen(port, '0.0.0.0');
 logger.info(`API is running on ${port}`);
