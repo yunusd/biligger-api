@@ -1,16 +1,26 @@
+const mongoose = require('mongoose');
+
+// Converting ObjectId to string so graphql can represent the value
+const { ObjectId } = mongoose.Types;
+ObjectId.prototype.valueOf = () => this.toString();
+
 const Post = `
   directive @isAuthorized on FIELD_DEFINITION
   directive @hasScope(actions: [String!]!) on FIELD_DEFINITION
-  
+  scalar Date
   type Post {
+    id: ID!,
     title: String!,
     content: String!,
     url: String,
-    author: String!,
+    like: [ID!]!,
+    author: User,
+    createdAt: Date,
   }
-  
+
   extend type Query {
-    getPost(title: String!): Post
+    getPost(id: ID!): Post
+    getLatestPosts: [Post!]!
   }
 
   extend type Mutation {

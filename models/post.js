@@ -14,6 +14,10 @@ const postSchema = Schema({
   url: String,
   like: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Post = mongoose.model('Post', postSchema);
