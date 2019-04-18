@@ -12,7 +12,7 @@ const XRegExp = require('xregexp');
  *                           going to expire in.
  */
 exports.token = {
-  expiresIn: 60 * 60,
+  expiresIn: 60 * 60, // 3600 * 730 = 1 month
   calculateExpirationDate: () => new Date(Date.now() + (this.token.expiresIn * 1000)),
 };
 
