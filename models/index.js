@@ -4,4 +4,5 @@ module.exports.Client = require('./client');
 module.exports.AccessToken = require('./accesstoken');
 module.exports.RefreshToken = require('./refreshtoken');
 module.exports.Comment = require('./comment');
+module.exports.Category = require('./category');
 // module.exports.Role = require('./role');

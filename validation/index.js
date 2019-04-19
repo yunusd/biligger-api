@@ -41,6 +41,7 @@ module.exports.postValidation = Joi.object().keys({
   content: Joi.string().required(),
   url: Joi.string().uri(),
   author: Joi.string().min(24).max(24),
+  category: Joi.exist(),
 });
 
 module.exports.editPostValidation = Joi.object().keys({
@@ -49,4 +50,5 @@ module.exports.editPostValidation = Joi.object().keys({
   content: Joi.string().required(),
   url: Joi.string().uri(),
   author: Joi.string().min(24).max(24),
+  category: Joi.exist(),
 });
