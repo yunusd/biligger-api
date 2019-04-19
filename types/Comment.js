@@ -9,6 +9,12 @@ const Comment = `
     post: Post,
     createdAt: Date,
   }
+
+  extend type Query {
+    getComment(id: ID!): Comment,
+    getLatestComments(post: ID!): [Comment!]!,
+    getUserComments(author: ID!): [Comment!]!,
+  }
   
   extend type Mutation {
     addComment(content: String!, post: ID!): Comment @hasScope(actions: ["create_comment"]),
@@ -16,5 +22,5 @@ const Comment = `
     deleteComment(id: ID!, author: ID!): Comment @hasScope(actions: ["delete_comment"]),
   }
 `;
-//     editComment(id: ID!, content: String!): Comment @hasScope
+
 module.exports = Comment;

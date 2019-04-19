@@ -8,6 +8,7 @@ const Comment = require('./types/Comment');
 
 const userQueries = require('./queries/user');
 const postQueries = require('./queries/post');
+const commentQueries = require('./queries/comment');
 
 const userMutation = require('./mutations/user');
 const postMutation = require('./mutations/post');
@@ -34,6 +35,7 @@ const resolvers = merge(
   // queries
   userQueries,
   postQueries,
+  commentQueries,
   // mutations
   userMutation,
   postMutation,
