@@ -13,7 +13,6 @@ const logger = require('./config/winston');
 
 // Router require
 const authRouter = require('./routes/auth');
-const authUserRouter = require('./routes/index');
 
 // HRBAC
 const rbac = require('./auth/hrbac');
@@ -53,8 +52,8 @@ app.use(expressSession({
   key: 'authorization.sid',
   cookie: {
     maxAge: 3600000 * 24 * 7 * 52,
-    secure: true,
-    httpOnly: true,
+    // secure: true,
+    // httpOnly: true,
   },
 }));
 
@@ -65,12 +64,11 @@ app.use(passport.session());
 
 require('./auth/auth');
 
-app.use('/oauth', authRouter);
-app.use('/oauth/user', authUserRouter);
+app.use('/auth', authRouter);
 
 // Authenticate user
 app.use('/api', (req, res, next) => {
-  passport.authenticate('bearer', { session: false }, (err, user) => {
+  passport.authenticate('local', (err, user) => {
     if (err) return next(err);
     if (user) {
       req.login(user, error => ((error) ? next(error) : null));

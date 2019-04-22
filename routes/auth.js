@@ -1,9 +1,12 @@
 const express = require('express');
+const passport = require('passport');
 
 const router = express.Router();
 
-const oauth2 = require('../auth/oauth2');
-
-router.post('/token', oauth2.token);
+router.post('/', passport.authenticate('local'), (req, res) => {
+  res.json({
+    status: 'success',
+  });
+});
 
 module.exports = router;
