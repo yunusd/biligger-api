@@ -12,6 +12,7 @@ const Category = `
 
   extend type Query {
     getCategory(id: ID!): Category,
+    getCategories: [Category!]!,
   }
 `;
 
