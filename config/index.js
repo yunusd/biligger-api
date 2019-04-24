@@ -35,3 +35,29 @@ exports.passwordMatch = {
     'sifre',
   ],
 };
+
+/**
+ * Cors configuration
+ * get options() - It is a getter contains cors options.
+ */
+
+// exports.cors = {
+//   get options() {
+//     const whitelist = ['https://localhost:3000', 'http://localhost:3001'];
+//     return {
+//       origin(origin, callback) {
+//         if (whitelist.indexOf(origin) !== -1) {
+//           callback(null, true);
+//         } else {
+//           callback(new Error('Not allowed by CORS'));
+//         }
+//       },
+//       credentials: true,
+//     };
+//   },
+// };
+
+exports.corsOptions = {
+  origin: 'https://localhost:3001',
+  credentials: true,
+};

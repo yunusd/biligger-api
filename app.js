@@ -22,17 +22,8 @@ const { MemoryStore } = expressSession;
 
 // Express Config
 const app = express();
-app.use(cors());
-// const whitelist = ['http://localhost:3001'];
-// // const corsOptions = {
-// //   origin(origin, callback) {
-// //     if (whitelist.indexOf(origin) !== -1) {
-// //       callback(null, true);
-// //     } else {
-// //       callback(new Error('Not allowed by CORS'));
-// //     }
-// //   },
-// // };
+
+app.use(cors(config.corsOptions));
 
 rbac.init();
 
@@ -52,8 +43,8 @@ app.use(expressSession({
   key: 'authorization.sid',
   cookie: {
     maxAge: 3600000 * 24 * 7 * 52,
-    // secure: true,
-    // httpOnly: true,
+    secure: true,
+    httpOnly: true,
   },
 }));
 
