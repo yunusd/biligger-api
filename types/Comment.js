@@ -13,7 +13,7 @@ const Comment = `
   extend type Query {
     getComment(id: ID!): Comment,
     getLatestComments(post: ID!): [Comment!]!,
-    getUserComments(author: ID!): [Comment!]!,
+    getUserComments(author: ID!): [Comment],
   }
   
   extend type Mutation {

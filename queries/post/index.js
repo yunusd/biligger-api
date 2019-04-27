@@ -1,11 +1,11 @@
 const getPost = require('./getPost');
-const getLatestPosts = require('./getLatestPosts');
-const getLatestPostsByCategory = require('./getLatestPostsByCategory');
+const { getLatestPosts, getLatestPostsByCategory, getPostsByUser } = require('./getLatestPosts');
 
 module.exports = {
   Query: {
     getPost,
     getLatestPosts,
     getLatestPostsByCategory,
+    getPostsByUser,
   },
 };

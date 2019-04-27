@@ -22,12 +22,13 @@ const Post = `
   extend type Query {
     getPost(id: ID!): Post
     getLatestPosts: [Post!]!
-    getLatestPostsByCategory(category: ID!): [Post!]!,
+    getLatestPostsByCategory(category: String!): [Post],
+    getPostsByUser(id: ID!): [Post],
   }
 
   extend type Mutation {
-    addPost(title: String!, content: String!, url: String, category: ID!): Post @hasScope(actions: ["create_post", "admin"]) 
-    editPost(id: ID!, title: String!, content: String!, url: String, category: ID!, author: ID!): Post @hasScope(actions: ["edit_post", "admin"]) 
+    addPost(title: String!, content: String!, url: String, category: String!): Post @hasScope(actions: ["create_post", "admin"]) 
+    editPost(id: ID!, title: String!, content: String!, url: String, category: String!, author: ID!): Post @hasScope(actions: ["edit_post", "admin"]) 
     deletePost(id: ID!, author: ID!): Post @hasScope(actions: ["delete_post", "admin"]) 
   }
 `;

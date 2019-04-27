@@ -19,11 +19,11 @@ module.exports.signUpValidation = Joi.object().keys({
   bio: Joi.string().min(30).max(300),
 });
 
-module.exports.editUserValidation = Joi.object().keys({
+module.exports.editUserPassword = Joi.object().keys({
   // TODO: Password needs to match this
   // ^(.{0,7}|[^0-9]*|[^\\p{Ll}]*|[^\\p{Lu}]*|[\\p{Ll}\\p{Lu}0-9]*)$ with non-english support
-  password: Joi.string().min(4).required(),
-  passwordCheck: Joi.string().min(4).valid(Joi.ref('password')).required()
+  newPassword: Joi.string().min(4).required(),
+  newPasswordCheck: Joi.string().min(4).valid(Joi.ref('newPassword')).required()
     .options({
       language: {
         any: {
@@ -31,8 +31,16 @@ module.exports.editUserValidation = Joi.object().keys({
         },
       },
     }),
-  email: Joi.string().email({ minDomainAtoms: 2 }).required(),
+});
+
+module.exports.editUserEmail = Joi.object()
+  .keys({ email: Joi.string().email({ minDomainAtoms: 2 }).required() });
+
+module.exports.editUserDegree = Joi.object().keys({
   degree: Joi.string().min(3).max(30),
+});
+
+module.exports.editUserBio = Joi.object().keys({
   bio: Joi.string().min(30).max(300),
 });
 

@@ -1,5 +1,6 @@
 const User = `
   directive @isAuthorized on FIELD_DEFINITION
+  directive @hasScope(actions: [String!]!) on FIELD_DEFINITION
   type User {
     id: ID!,
     username: String,
@@ -12,12 +13,13 @@ const User = `
   }
 
   extend type Query {
-    getUser(id: ID!): User,
+    getUser(username: String!): User,
+    getMe: User @hasScope(actions: ["create_post", "admin"])
   }
 
   extend type Mutation {
     registerUser(username: String!, password: String!, passwordCheck: String!, email: String!, degree: String, bio: String): User
-    editUser(password: String!, passwordCheck: String!, email: String!, degree: String, bio: String): User @isAuthorized
+    editUser(password: String!, newPassword: String, newPasswordCheck: String, email: String, degree: String, bio: String): User @hasScope(actions: ["create_post", "admin"])
     deleteUser: User @isAuthorized
   }
 `;

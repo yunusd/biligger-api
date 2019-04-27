@@ -3,7 +3,7 @@ const { Category } = require('../models');
 
 mongoose.connect('mongodb://admin:pass@localhost:27017/biligger', { useNewUrlParser: true });
 
-const names = ['Teknoloji', 'Bilim', 'Spor', 'Sanat', 'Yaşam Biçimi'];
+const names = ['teknoloji', 'bilim', 'spor', 'sanat', 'yaşam biçimi'];
 
 names.forEach(async (val) => {
   // console.log(val);

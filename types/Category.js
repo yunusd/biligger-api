@@ -7,11 +7,11 @@ ObjectId.prototype.valueOf = () => this.toString();
 const Category = `
   type Category {
     id: ID!,
-    name: String,
+    name: String!,
   }
 
   extend type Query {
-    getCategory(id: ID!): Category,
+    getCategory(name: String!): Category,
     getCategories: [Category!]!,
   }
 `;
