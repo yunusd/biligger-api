@@ -1,7 +1,7 @@
 const { Post } = require('../../models');
 
 module.exports = async (_, args) => {
-  const post = await Post.findById(args.id).populate('author');
+  const post = await Post.findById(args.id).populate('author').populate('category');
   if (!post) return Error('Gönderi bulunamadı');
   return post;
 };

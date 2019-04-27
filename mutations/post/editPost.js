@@ -10,6 +10,7 @@ module.exports = async (_, args) => {
     title: args.title,
     content: args.content,
     url: args.url,
+    category: args.category,
   }, { new: true });
 
   return post;
