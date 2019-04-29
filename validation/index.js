@@ -60,3 +60,17 @@ module.exports.editPostValidation = Joi.object().keys({
   author: Joi.string().min(24).max(24),
   category: Joi.exist(),
 });
+
+module.exports.commentValidation = Joi.object().keys({
+  id: Joi.string().min(24).max(24),
+  content: Joi.string().required(),
+  author: Joi.string().min(24).max(24),
+  parent: Joi.string().required(),
+  parentModel: Joi.string().required(),
+});
+
+module.exports.editCommentValidation = Joi.object().keys({
+  id: Joi.string().min(24).max(24),
+  content: Joi.string().required(),
+  author: Joi.string().min(24).max(24),
+});

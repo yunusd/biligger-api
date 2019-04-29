@@ -9,7 +9,16 @@ const commentSchema = new Schema({
     required: true,
   },
   like: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  post: { type: Schema.Types.ObjectId, ref: 'Post', required: true },
+  parent: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    refPath: 'parentModel',
+  },
+  parentModel: {
+    type: String,
+    required: true,
+    enum: ['Post', 'Comment'],
+  },
   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   createdAt: {
     type: Date,

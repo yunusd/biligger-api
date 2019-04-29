@@ -9,11 +9,11 @@ const Post = `
   directive @hasScope(actions: [String!]!) on FIELD_DEFINITION
   scalar Date
   type Post {
-    id: ID!,
-    title: String!,
-    content: String!,
+    id: ID,
+    title: String,
+    content: String,
     url: String,
-    like: [ID!]!,
+    like: [ID],
     author: User,
     category: Category,
     createdAt: Date,
