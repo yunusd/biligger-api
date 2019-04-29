@@ -5,11 +5,13 @@ const User = require('./types/User');
 const Post = require('./types/Post');
 const Comment = require('./types/Comment');
 const Category = require('./types/Category');
+const Search = require('./types/Search');
 
 const userQueries = require('./queries/user');
 const postQueries = require('./queries/post');
 const categoryQueries = require('./queries/category');
 const commentQueries = require('./queries/comment');
+const searchQueries = require('./queries/search');
 
 const userMutation = require('./mutations/user');
 const postMutation = require('./mutations/post');
@@ -38,6 +40,7 @@ const resolvers = merge(
   postQueries,
   commentQueries,
   categoryQueries,
+  searchQueries,
   // mutations
   userMutation,
   postMutation,
@@ -52,6 +55,7 @@ const schema = makeExecutableSchema({
     Post,
     Comment,
     Category,
+    Search,
   ],
   resolvers,
   schemaDirectives: {

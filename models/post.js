@@ -22,6 +22,11 @@ const postSchema = new Schema({
   },
 });
 
+postSchema.index(
+  { title: 'text', content: 'text' },
+  { weights: { title: 10, content: 7 }, name: 'post index search' },
+);
+
 const Post = mongoose.model('Post', postSchema);
 
 module.exports = Post;
