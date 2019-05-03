@@ -1,8 +1,37 @@
 const { Post } = require('../../models');
 
-module.exports = async (_, args) => {
+module.exports = async (_, args, context) => {
+  args.user = context.isAuthenticated && context.isAuthenticated.id;
+
   const postAggregate = await Post.aggregate([
     { $match: { $text: { $search: args.text } } },
+    {
+      $lookup: {
+        from: 'likes',
+        let: { parent: '$_id' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and:
+                  [
+                    { $eq: ['$$parent', '$parent'] },
+                    { $eq: [{ $toObjectId: args.user }, '$user'] },
+                  ],
+              },
+            },
+          },
+          { $project: { _id: 0, user: 1 } },
+        ],
+        as: 'liked',
+      },
+    },
+    {
+      $unwind: {
+        path: '$liked',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
     {
       $project: {
         id: { $toString: '$_id' },
@@ -12,11 +41,14 @@ module.exports = async (_, args) => {
         countLike: 1,
         author: 1,
         createdAt: 1,
-        liked: { $in: [{ $toObjectId: '5cc86ed1001dcfb3d164e8f5' }, '$like'] },
+        like: { $eq: [{ $toObjectId: args.user }, '$liked.user'] },
       },
     },
     { $sort: { score: { $meta: 'textScore' } } },
+    { $skip: args.offset },
+    { $limit: args.limit },
   ]).exec();
+
   const opts = [
     { path: 'author', select: '-hashedPassword -salt' },
   ];

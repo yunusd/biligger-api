@@ -10,7 +10,7 @@ const Like = `
   }
 
   extend type Query {
-    getLikes: [UserLikes] @hasScope(actions: ["create_comment"]),
+    getLikes(offset: Int!, limit: Int!): [UserLikes] @hasScope(actions: ["create_comment"]),
   }
   
   extend type Mutation {

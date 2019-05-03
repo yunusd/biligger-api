@@ -47,6 +47,8 @@ module.exports = {
         },
       },
       { $sort: { createdAt: -1 } },
+      { $skip: args.offset },
+      { $limit: args.limit },
     ]).exec();
 
     const opts = [
@@ -103,6 +105,8 @@ module.exports = {
         },
       },
       { $sort: { createdAt: -1 } },
+      { $skip: args.offset },
+      { $limit: args.limit },
     ]).exec();
 
     const opts = [
@@ -113,9 +117,10 @@ module.exports = {
     const posts = await Post.populate(postAggregate, opts);
     return posts;
   },
-  getPostsByUser: async (_, { id }) => {
+  getPostsByUser: async (_, { id, offset, limit }) => {
     const posts = await Post.find({ author: id }).sort({ createdAt: -1 })
-      .populate('author');
+      .populate('author').skip(offset)
+      .limit(limit);
     return posts;
   },
 };

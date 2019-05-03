@@ -21,8 +21,8 @@ const Comment = `
   
   extend type Query {
     getComment(id: ID!): Comment,
-    getLatestComments(parent: ID!): [Comment!]!,
-    getUserComments(author: ID!): [Comment],
+    getLatestComments(parent: ID!, offset: Int!, limit: Int!): [Comment!]!,
+    getUserComments(author: ID!, offset: Int!, limit: Int!): [Comment],
   }
   
   extend type Mutation {

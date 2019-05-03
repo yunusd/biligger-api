@@ -5,6 +5,7 @@ module.exports = async (_, args, context) => {
   const likedPosts = await Like.find({ user: args.user }, '-_id -user').populate({
     path: 'parent',
     populate: { path: 'author', select: 'username' },
-  }).sort({ createdAt: -1 });
+  }).skip(args.offset).limit(args.limit)
+    .sort({ createdAt: -1 });
   return likedPosts;
 };

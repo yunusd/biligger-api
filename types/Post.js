@@ -22,9 +22,9 @@ const Post = `
 
   extend type Query {
     getPost(id: ID!): Post
-    getLatestPosts: [Post!]!
-    getLatestPostsByCategory(category: String!): [Post],
-    getPostsByUser(id: ID!): [Post],
+    getLatestPosts(offset: Int!, limit: Int!): [Post!]!
+    getLatestPostsByCategory(category: String!, offset: Int!, limit: Int!): [Post],
+    getPostsByUser(id: ID!, offset: Int!, limit: Int!): [Post],
   }
 
   extend type Mutation {

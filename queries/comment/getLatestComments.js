@@ -63,6 +63,8 @@ module.exports = async (u, args, context) => {
         like: { $eq: [{ $toObjectId: args.user }, '$liked.user'] },
       },
     },
+    { $skip: args.offset },
+    { $limit: args.limit },
   ]).exec();
 
   const opts = [

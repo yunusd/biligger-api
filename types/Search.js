@@ -1,6 +1,6 @@
 const Search = `
   extend type Query {
-    searchPosts(text: String!): [Post],
+    searchPosts(text: String!, offset: Int!, limit: Int!): [Post],
   }
 `;
 
