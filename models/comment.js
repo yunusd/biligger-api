@@ -8,7 +8,11 @@ const commentSchema = new Schema({
     type: String,
     required: true,
   },
-  like: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  like: [{ type: Schema.Types.ObjectId, ref: 'Like' }],
+  countLike: {
+    type: Number,
+    default: 0,
+  },
   parent: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -23,6 +27,10 @@ const commentSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  mainScore: {
+    type: Number,
+    default: 0,
   },
 });
 

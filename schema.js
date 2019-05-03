@@ -6,17 +6,22 @@ const Post = require('./types/Post');
 const Comment = require('./types/Comment');
 const Category = require('./types/Category');
 const Search = require('./types/Search');
+const Like = require('./types/Like');
 
 const userQueries = require('./queries/user');
 const postQueries = require('./queries/post');
 const categoryQueries = require('./queries/category');
 const commentQueries = require('./queries/comment');
 const searchQueries = require('./queries/search');
+const likeQueries = require('./queries/like');
 
 const userMutation = require('./mutations/user');
 const postMutation = require('./mutations/post');
+const CommentMutation = require('./mutations/comment');
+const LikeMutation = require('./mutations/like');
 
-const commentMutation = require('./mutations/comment');
+const CommentParent = require('./unions/commentParent');
+const LikeParent = require('./unions/likeParent');
 
 const { AuthorizeDirective, ScopeDirective } = require('./directives/auth');
 
@@ -41,11 +46,15 @@ const resolvers = merge(
   commentQueries,
   categoryQueries,
   searchQueries,
+  likeQueries,
   // mutations
   userMutation,
   postMutation,
-  commentMutation,
-  // editUserMutation,
+  CommentMutation,
+  LikeMutation,
+  // union
+  CommentParent,
+  LikeParent,
 );
 
 const schema = makeExecutableSchema({
@@ -56,6 +65,7 @@ const schema = makeExecutableSchema({
     Comment,
     Category,
     Search,
+    Like,
   ],
   resolvers,
   schemaDirectives: {

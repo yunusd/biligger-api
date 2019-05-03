@@ -1,42 +1,77 @@
-const _ = require('lodash');
+const mongoose = require('mongoose');
+
 const { Comment } = require('../../models');
 
-module.exports = async (u, args) => {
-  const comments = await Comment.find({ parent: args.parent })
-    .populate({ path: 'parent', populate: { path: 'author' } })
-    .populate('author');
+const { ObjectId } = mongoose.Types;
 
-  /**
-   * Returning new array of object with property
-   * parent.post and parent.comment
-   *
-   */
-  const data = [];
-  _.each(comments, (obj) => {
-    const {
-      id,
-      content,
-      like,
-      parent,
-      parentModel,
-      author,
-      createdAt,
-    } = obj;
+module.exports = async (u, args, context) => {
+  args.user = context.isAuthenticated && context.isAuthenticated.id;
 
-    const newData = {
-      id,
-      content,
-      like,
-      author,
-      createdAt,
-      parentModel,
-      parent: {
-        post: parentModel === 'Post' && parent,
-        comment: parentModel === 'Comment' && parent,
+  const commentAggregate = await Comment.aggregate([
+    { $match: { parent: ObjectId(args.parent) } },
+    {
+      $lookup: {
+        from: 'likes',
+        let: { parent: '$_id' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and:
+                  [
+                    { $eq: ['$$parent', '$parent'] },
+                    { $eq: [{ $toObjectId: args.user }, '$user'] },
+                  ],
+              },
+            },
+          },
+          { $project: { _id: 0, user: 1 } },
+        ],
+        as: 'liked',
       },
-    };
-    data.push(newData);
-  });
+    },
+    {
+      $unwind: {
+        path: '$liked',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $project: {
+        id: { $toString: '$_id' },
+        content: '$content',
+        countLike: '$countLike',
+        author: '$author',
+        createdAt: '$createdAt',
+        parentModel: '$parentModel',
+        parent: {
+          post: {
+            $cond: {
+              if: { $eq: ['Comment', '$parentModel'] },
+              then: '$$REMOVE',
+              else: '$parent',
+            },
+          },
+          comment: {
+            $cond: {
+              if: { $eq: ['Post', '$parentModel'] },
+              then: '$$REMOVE',
+              else: '$parent',
+            },
+          },
+        },
+        like: { $eq: [{ $toObjectId: args.user }, '$liked.user'] },
+      },
+    },
+  ]).exec();
 
-  return data;
+  const opts = [
+    { path: 'author', select: '-hashedPassword -salt' },
+    { path: 'parent', populate: { path: 'author' } },
+  ];
+
+  const comments = await Comment.populate(commentAggregate, opts);
+
+  if (!comments) return Error('Gönderi bulunamadı');
+  return comments;
 };

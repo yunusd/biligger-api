@@ -6,20 +6,17 @@ ObjectId.prototype.valueOf = () => this.toString();
 
 const Comment = `
   directive @hasScope(actions: [String!]!) on FIELD_DEFINITION
+  union CommentParent = Post | Comment
 
   type Comment {
     id: ID,
     content: String,
-    parent: Parent,
+    parent: CommentParent,
     parentModel: String,
-    like: [ID!],
+    like: Boolean,
+    countLike: Int!,
     author: User,
     createdAt: Date,
-  }
-
-  type Parent {
-    post: Post,
-    comment: Comment
   }
   
   extend type Query {

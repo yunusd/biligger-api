@@ -12,10 +12,18 @@ const postSchema = new Schema({
     required: true,
   },
   url: String,
-  like: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  like: [{ type: Schema.Types.ObjectId, ref: 'Like' }],
+  countLike: {
+    type: Number,
+    default: 0,
+  },
   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   comment: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   category: { type: Schema.Types.ObjectId, ref: 'Category' },
+  mainScore: {
+    type: Number,
+    default: 0,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
