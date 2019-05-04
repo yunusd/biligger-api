@@ -24,6 +24,8 @@ const Post = `
     getPost(id: ID!): Post
     getLatestPosts(offset: Int!, limit: Int!): [Post!]!
     getLatestPostsByCategory(category: String!, offset: Int!, limit: Int!): [Post],
+    getPopulerPosts(offset: Int!, limit: Int!): [Post!]!
+    getPopulerPostsByCategory(category: String!, offset: Int!, limit: Int!): [Post],
     getPostsByUser(id: ID!, offset: Int!, limit: Int!): [Post],
   }
 

@@ -1,5 +1,6 @@
 const getPost = require('./getPost');
 const { getLatestPosts, getLatestPostsByCategory, getPostsByUser } = require('./getLatestPosts');
+const { getPopulerPosts, getPopulerPostsByCategory } = require('./getPopulerPosts');
 
 module.exports = {
   Query: {
@@ -7,5 +8,7 @@ module.exports = {
     getLatestPosts,
     getLatestPostsByCategory,
     getPostsByUser,
+    getPopulerPosts,
+    getPopulerPostsByCategory,
   },
 };
