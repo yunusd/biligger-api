@@ -1,6 +1,11 @@
 const Joi = require('joi');
 
-const { Comment, Post, User } = require('../../models');
+const {
+  Comment, Post, User,
+} = require('../../models');
+
+const { createNotification } = require('../../helpers/notification');
+
 const { commentValidation } = require('../../validation');
 
 module.exports = async (_, args, context) => {
@@ -26,6 +31,13 @@ module.exports = async (_, args, context) => {
     $inc: {
       mainScore: 0.5,
     },
+  });
+
+  await createNotification(args.author, comment.parent.author, {
+    entity: comment.parent.id,
+    entityRef: comment.parent.title ? 'Post' : 'Comment',
+    entityId: comment.parent.title ? 3 : 4,
+    message: comment.parent.title || comment.parent.content,
   });
 
   return comment;

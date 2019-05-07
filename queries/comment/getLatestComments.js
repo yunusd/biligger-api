@@ -63,6 +63,7 @@ module.exports = async (u, args, context) => {
         like: { $eq: [{ $toObjectId: args.user }, '$liked.user'] },
       },
     },
+    { $sort: { createdAt: -1 } },
     { $skip: args.offset },
     { $limit: args.limit },
   ]).exec();

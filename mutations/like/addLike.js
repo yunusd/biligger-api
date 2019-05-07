@@ -2,6 +2,8 @@ const {
   Comment, Post, User, Like,
 } = require('../../models');
 
+const { createNotification } = require('../../helpers/notification');
+
 module.exports = async (_, args, context) => {
   args.user = context.isAuthenticated.id;
   let post = null;
@@ -46,6 +48,12 @@ module.exports = async (_, args, context) => {
           mainScore: 0.1,
         },
       });
+      await createNotification(args.user, post.author, {
+        entity: post.id,
+        entityRef: 'Post',
+        entityId: 1,
+        message: post.title,
+      });
     }
     if (args.parentModel === 'Comment') {
       comment = await Comment.findOneAndUpdate({
@@ -67,6 +75,12 @@ module.exports = async (_, args, context) => {
         $inc: {
           mainScore: 0.1,
         },
+      });
+      await createNotification(args.user, comment.author, {
+        entity: comment.id,
+        entityRef: 'Comment',
+        entityId: 2,
+        message: comment.content,
       });
     }
   }

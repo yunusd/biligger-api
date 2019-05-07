@@ -25,4 +25,7 @@ const options = {
 apolloServer.applyMiddleware({ app, path: '/api', cors: config.corsOptions }); // Apollo Server Middleware
 
 https.createServer(options, app).listen(port, '0.0.0.0');
+// const httpsServer = https.createServer(options, app);
+// apolloServer.installSubscriptionHandlers(httpsServer);
+// httpsServer.listen(port, '0.0.0.0');
 logger.info(`API is running on ${port}`);

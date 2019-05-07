@@ -2,6 +2,8 @@ const {
   Comment, Post, User, Like,
 } = require('../../models');
 
+const { deleteNotification } = require('../../helpers/notification');
+
 module.exports = async (_, args, context) => {
   args.user = context.isAuthenticated.id;
   let post = null;
@@ -39,6 +41,7 @@ module.exports = async (_, args, context) => {
           mainScore: -0.1,
         },
       });
+      await deleteNotification(args.user, post.author);
     }
     if (args.parentModel === 'Comment') {
       comment = await Comment.findOneAndUpdate({
