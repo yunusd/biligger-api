@@ -23,17 +23,8 @@ exports.session = {
  */
 
 exports.passwordMatch = {
-  regexp: XRegExp('^(.{0,7}|[^0-9]*|[^\\p{Ll}]*|[^\\p{Lu}]*|[\\p{Ll}\\p{Lu}0-9]*)$'),
-  weekPass: [
-    '1234567',
-    '123456789',
-    '987654321',
-    '7654321',
-    '3456789',
-    'password',
-    'şifre',
-    'sifre',
-  ],
+  regex: /^(?=(.*[a-zA-Z].*){3,})(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,}$/,
+  regexpDep: XRegExp('^(.{0,7}|[^0-9]*|[^\\p{Ll}]*|[^\\p{Lu}]*|[\\p{Ll}\\p{Lu}0-9]*)$'),
 };
 
 /**

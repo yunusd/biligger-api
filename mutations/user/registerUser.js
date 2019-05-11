@@ -4,6 +4,7 @@ const User = require('../../models/user');
 const { signUpValidation } = require('../../validation');
 
 module.exports = async (_, args) => {
+  if (args.bio === '') delete args.bio;
   await Joi.validate(args, signUpValidation, { abortEarly: false });
   // Deleting passwordCheck field because mongoose schema doesn't have this field.
   delete args.passwordCheck;

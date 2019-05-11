@@ -23,9 +23,11 @@ const userSchema = new Schema({
     required: true,
     validate: {
       validator: async username => await User.where({ username }).countDocuments() === 0,
-      message: ({ value }) => `Username (${value}) has already been taken.`,
+      message: () => 'Kullanıcı adı zaten kullanımda!',
     },
   },
+  firstName: String,
+  lastName: String,
   hashedPassword: {
     type: String,
     required: true,
@@ -41,7 +43,7 @@ const userSchema = new Schema({
     required: true,
     validate: {
       validator: async email => await User.where({ email }).countDocuments() === 0,
-      message: ({ value }) => `Email (${value}) has already been taken.`,
+      message: () => 'E-Posta adresi zaten kullanımda!',
     },
   },
   degree: {

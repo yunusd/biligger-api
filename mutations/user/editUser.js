@@ -19,10 +19,9 @@ module.exports = async (_, args, context) => {
 
   await validate.user({ id: context.isAuthenticated.id }, password);
 
-  // If registired email and given email doesn't equal will try to find that user
+  // If registered email and given email doesn't equal will try to find that user
   // and if it finds, return error.
-
-  if (context.isAuthenticated.email !== email || context.isAuthenticated.email === email) {
+  if (context.isAuthenticated.email !== email) {
     const emailExists = await User.findOne({ email });
     if (emailExists) throw Error('E-Posta zaten var');
   }

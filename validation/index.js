@@ -1,12 +1,14 @@
 const Joi = require('joi');
+const { passwordMatch } = require('../config');
 
 module.exports.signUpValidation = Joi.object().keys({
   username: Joi.string().alphanum().min(3).max(20)
     .required(),
   // TODO: Password needs to match this
   // ^(.{0,7}|[^0-9]*|[^\\p{Ll}]*|[^\\p{Lu}]*|[\\p{Ll}\\p{Lu}0-9]*)$ with non-english support
-  password: Joi.string().min(4).required(),
+  password: Joi.string().min(4).required().regex(passwordMatch.regex),
   passwordCheck: Joi.string().min(4).valid(Joi.ref('password')).required()
+    .regex(passwordMatch.regex)
     .options({
       language: {
         any: {
@@ -24,6 +26,7 @@ module.exports.editUserPassword = Joi.object().keys({
   // ^(.{0,7}|[^0-9]*|[^\\p{Ll}]*|[^\\p{Lu}]*|[\\p{Ll}\\p{Lu}0-9]*)$ with non-english support
   newPassword: Joi.string().min(4).required(),
   newPasswordCheck: Joi.string().min(4).valid(Joi.ref('newPassword')).required()
+    .regex(passwordMatch.regex)
     .options({
       language: {
         any: {
