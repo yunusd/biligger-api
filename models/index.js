@@ -4,4 +4,5 @@ module.exports.Comment = require('./comment');
 module.exports.Category = require('./category');
 module.exports.Like = require('./like');
 module.exports.Notification = require('./notification');
+module.exports.Invite = require('./invite');
 // module.exports.Role = require('./role');

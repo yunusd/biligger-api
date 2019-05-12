@@ -60,6 +60,10 @@ const userSchema = new Schema({
     type: Number,
     default: 0,
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 userSchema.pre('save', function (next) {

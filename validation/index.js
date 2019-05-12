@@ -19,6 +19,7 @@ module.exports.signUpValidation = Joi.object().keys({
   email: Joi.string().email({ minDomainAtoms: 2 }).required(),
   degree: Joi.string().min(3).max(30),
   bio: Joi.string().min(30).max(300),
+  invitationCode: Joi.string().min(10).max(10).required(),
 });
 
 module.exports.editUserPassword = Joi.object().keys({

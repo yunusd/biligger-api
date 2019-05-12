@@ -3,10 +3,9 @@ const { Category } = require('../models');
 
 mongoose.connect('mongodb://admin:pass@localhost:27017/biligger', { useNewUrlParser: true });
 
-const names = ['teknoloji', 'bilim', 'spor', 'sanat', 'yaşam biçimi'];
+const names = ['bilim', 'teknoloji', 'sanat', 'politika', 'ekonomi', 'edebiyat'];
 
 names.forEach(async (val) => {
-  // console.log(val);
   await Category.create({
     name: val,
   });
