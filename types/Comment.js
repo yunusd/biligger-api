@@ -28,7 +28,7 @@ const Comment = `
   extend type Mutation {
     addComment(content: String!, parent: ID!, parentModel: String!): Comment @hasScope(actions: ["create_comment"]),
     editComment(id: ID!, content: String!, author: ID!): Comment @hasScope(actions: ["edit_comment"]),
-    deleteComment(id: ID!, author: ID!): Comment @hasScope(actions: ["delete_comment"]),
+    deleteComment(id: ID!, author: ID!): Comment @hasScope(actions: ["remove_comment"]),
   }
 `;
 
