@@ -1,5 +1,4 @@
 const Notification = `
-  directive @hasScope(actions: [String!]!) on FIELD_DEFINITION
   type NotificationData {
     actor: String
     notificationId: ID

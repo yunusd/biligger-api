@@ -1,5 +1,4 @@
 const Like = `
-  directive @hasScope(actions: [String!]!) on FIELD_DEFINITION
   union LikeParent = Post | Comment
   type Like {
     liked: Boolean

@@ -5,7 +5,6 @@ const { ObjectId } = mongoose.Types;
 ObjectId.prototype.valueOf = () => this.toString();
 
 const User = `
-  directive @hasScope(actions: [String!]!) on FIELD_DEFINITION
   type User {
     id: ID!,
     username: String,

@@ -29,6 +29,8 @@ const LikeParent = require('./unions/likeParent');
 const { ScopeDirective } = require('./directives/auth');
 
 const Root = `
+  directive @hasScope(actions: [String!]!) on FIELD_DEFINITION
+  scalar Date
   type Query {
     dummy: String
   },

@@ -5,8 +5,6 @@ const { ObjectId } = mongoose.Types;
 ObjectId.prototype.valueOf = () => this.toString();
 
 const Post = `
-  directive @hasScope(actions: [String!]!) on FIELD_DEFINITION
-  scalar Date
   type Post {
     id: ID,
     title: String,

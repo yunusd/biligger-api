@@ -5,7 +5,6 @@ const { ObjectId } = mongoose.Types;
 ObjectId.prototype.valueOf = () => this.toString();
 
 const Comment = `
-  directive @hasScope(actions: [String!]!) on FIELD_DEFINITION
   union CommentParent = Post | Comment
 
   type Comment {
