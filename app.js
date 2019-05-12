@@ -19,7 +19,10 @@ const authRouter = require('./routes/auth');
 // HRBAC
 const rbac = require('./auth/hrbac');
 
-logger.info('Using MemoryStore for the session');
+// Middlewares
+const rateLimiterRedisMiddleware = require('./middlewares/rateLimiterRedis');
+
+logger.info('Using RedisStore for the session');
 
 const redisClient = redis.createClient();
 
@@ -27,9 +30,11 @@ const redisClient = redis.createClient();
 // Express Config
 const app = express();
 
-// const redisClient = createRedisClient();
-
+// Cors Setting
 app.use(cors(config.corsOptions));
+
+// Rate Limiting
+app.use(rateLimiterRedisMiddleware);
 
 rbac.init();
 
