@@ -10,12 +10,12 @@ const Like = `
   }
 
   extend type Query {
-    getLikes(offset: Int!, limit: Int!): [UserLikes] @hasScope(actions: ["create_comment"]),
+    getLikes(offset: Int!, limit: Int!): [UserLikes] @hasScope(actions: ["view_like"]),
   }
   
   extend type Mutation {
-    addLike(id: ID!, parentModel: String!): Like @hasScope(actions: ["create_comment"]),
-    removeLike(id: ID!, parentModel: String!): Like @hasScope(actions: ["create_comment"]),
+    addLike(id: ID!, parentModel: String!): Like @hasScope(actions: ["create_like"]),
+    removeLike(id: ID!, parentModel: String!): Like @hasScope(actions: ["delete_like"]),
   }
 `;
 

@@ -5,7 +5,6 @@ const { ObjectId } = mongoose.Types;
 ObjectId.prototype.valueOf = () => this.toString();
 
 const Post = `
-  directive @isAuthorized on FIELD_DEFINITION
   directive @hasScope(actions: [String!]!) on FIELD_DEFINITION
   scalar Date
   type Post {
@@ -32,7 +31,7 @@ const Post = `
   extend type Mutation {
     addPost(title: String!, content: String!, url: String, category: String!): Post @hasScope(actions: ["create_post", "admin"]) 
     editPost(id: ID!, title: String!, content: String!, url: String, category: String!, author: ID!): Post @hasScope(actions: ["edit_post", "admin"]) 
-    deletePost(id: ID!, author: ID!): Post @hasScope(actions: ["delete_post", "admin"]) 
+    deletePost(id: ID!, author: ID!): Post @hasScope(actions: ["remove_post", "admin"]) 
   }
 `;
 

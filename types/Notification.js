@@ -21,12 +21,12 @@ const Notification = `
   }
   
   extend type Query {
-    getNotifications(offset: Int!, limit: Int!): Notification @hasScope(actions: ["edit_comment"])
+    getNotifications(offset: Int!, limit: Int!): Notification @hasScope(actions: ["view_notification"])
   }
 
   extend type Mutation {
-    seenNotification: Seen @hasScope(actions: ["edit_comment"])
-    deleteNotification: Seen @hasScope(actions: ["edit_comment"])
+    seenNotification: Seen @hasScope(actions: ["view_notification"])
+    deleteNotification: Seen @hasScope(actions: ["delete_notification"])
   }
 `;
 

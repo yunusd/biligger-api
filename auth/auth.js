@@ -27,9 +27,9 @@ passport.use(new LocalStrategy((username, password, done) => {
 // stored in the session.
 //
 // An application must supply serialization functions, which determine how the
-// client object is serialized into the session.  Typically this will be a
-// simple matter of serializing the client's ID, and deserializing by finding
-// the client by ID from the database.
+// user object is serialized into the session.  Typically this will be a
+// simple matter of serializing the user's ID, and deserializing by finding
+// the user by ID from the database.
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

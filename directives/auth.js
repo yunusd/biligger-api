@@ -1,21 +1,6 @@
 const { SchemaDirectiveVisitor, AuthenticationError } = require('apollo-server-express');
 const { defaultFieldResolver } = require('graphql');
 
-module.exports.AuthorizeDirective = class AuthorizeDirective extends SchemaDirectiveVisitor {
-  visitFieldDefinition(field) {
-    const { resolve = defaultFieldResolver } = field;
-    field.resolve = async (...args) => {
-      const [_, , context] = args;
-      if (context.isAuthenticated) {
-        if (context.isAuthenticated.id != _.id) throw new AuthenticationError('Unauthorized');
-        const result = await resolve.apply(this, args);
-        return result;
-      }
-      throw new AuthenticationError('Unauthenticated');
-    };
-  }
-};
-
 /* TODO: REFACTOR THIS */
 module.exports.ScopeDirective = class ScopeDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
@@ -28,7 +13,7 @@ module.exports.ScopeDirective = class ScopeDirective extends SchemaDirectiveVisi
         const scope = await context.scope.getScope(role);
         let failedScope = false;
         actions.forEach((val) => {
-          const res = scope.indexOf(val) >= 0 ? true : false; // 0 === true
+          const res = scope.indexOf(val) >= 0; // 0 === true
 
           if (!res && val !== 'admin') failedScope = true;
         });

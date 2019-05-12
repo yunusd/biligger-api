@@ -26,7 +26,7 @@ const notificationMutation = require('./mutations/notification');
 const CommentParent = require('./unions/commentParent');
 const LikeParent = require('./unions/likeParent');
 
-const { AuthorizeDirective, ScopeDirective } = require('./directives/auth');
+const { ScopeDirective } = require('./directives/auth');
 
 const Root = `
   type Query {
@@ -95,7 +95,6 @@ const schema = makeExecutableSchema({
   ],
   resolvers,
   schemaDirectives: {
-    isAuthorized: AuthorizeDirective,
     hasScope: ScopeDirective,
   },
 });
