@@ -1,11 +1,13 @@
 const express = require('express');
 require('express-async-errors');
-const expressSession = require('express-session');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan');
+const redis = require('redis');
 
 // Custom Config
 const config = require('./config');
@@ -18,10 +20,14 @@ const authRouter = require('./routes/auth');
 const rbac = require('./auth/hrbac');
 
 logger.info('Using MemoryStore for the session');
-const { MemoryStore } = expressSession;
+
+const redisClient = redis.createClient();
+
 
 // Express Config
 const app = express();
+
+// const redisClient = createRedisClient();
 
 app.use(cors(config.corsOptions));
 
@@ -35,11 +41,15 @@ app.use(helmet());
 app.use(morgan('combined', { stream: logger.stream })); // Logger stream from winston
 
 // Session Config
-app.use(expressSession({
+app.use(session({
   saveUninitialized: true,
   resave: true,
   secret: config.session.secret,
-  store: new MemoryStore(),
+  store: new RedisStore({
+    client: redisClient,
+    host: 'localhost',
+    port: 6379,
+  }),
   key: 'authorization.sid',
   cookie: {
     maxAge: 3600000 * 24 * 7 * 52,
