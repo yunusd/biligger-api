@@ -1,30 +1,23 @@
 const mongoose = require('mongoose');
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
+const http = require('http');
 const app = require('../app');
 const apolloServer = require('../apollo-server');
 const config = require('../config');
 const logger = require('../config/winston');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://admin:pass@localhost:27017/biligger', { useNewUrlParser: true });
+mongoose.connect(config.db.url, config.db.options);
 const db = mongoose.connection;
 db.on('error', logger.error.bind(logger, 'Connection error: '));
 db.once('open', () => {
   logger.info('Database connection is estableshed');
 });
 
-const port = process.env.PORT || '3000';
-
-const options = {
-  key: fs.readFileSync(path.join(__dirname, '../certs/privatekey.pem')),
-  cert: fs.readFileSync(path.join(__dirname, '../certs/certificate.pem')),
-};
+const port = process.env.PORT || '8080';
 
 apolloServer.applyMiddleware({ app, path: '/api', cors: config.corsOptions }); // Apollo Server Middleware
 
-https.createServer(options, app).listen(port, '0.0.0.0');
+http.createServer(app).listen(port);
 // const httpsServer = https.createServer(options, app);
 // apolloServer.installSubscriptionHandlers(httpsServer);
 // httpsServer.listen(port, '0.0.0.0');

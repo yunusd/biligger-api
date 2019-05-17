@@ -17,10 +17,18 @@ const postSchema = new Schema({
     type: Number,
     default: 0,
   },
+  countReply: {
+    type: Number,
+    default: 0,
+  },
   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   comment: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   category: { type: Schema.Types.ObjectId, ref: 'Category' },
   mainScore: {
+    type: Number,
+    default: 0,
+  },
+  view: {
     type: Number,
     default: 0,
   },

@@ -1,16 +1,14 @@
 const redis = require('redis');
 const { RateLimiterRedis } = require('rate-limiter-flexible');
 
-const redisClient = redis.createClient({
-  host: 'localhost',
-  port: 6379,
-  enable_offline_queue: false,
-});
+const config = require('../config');
+
+const redisClient = redis.createClient(config.redis.url);
 
 const rateLimiter = new RateLimiterRedis({
   redis: redisClient,
   keyPrefix: 'middleware',
-  points: 10, // 10 requests
+  points: 20, // 20 requests
   duration: 1, // per 1 second by IP
 });
 

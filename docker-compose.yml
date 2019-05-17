@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  api:
+    container_name: api
+    image: yunusdp/biligger-api
+    build:
+      context: .
+      args:
+        NODE_ENV: development
+    command: npm run start
+    restart: always
+    ports:
+      - 8080:8080
+    env_file: .env
+    environment:
+      - MONGO_USERNAME=$MONGO_USERNAME
+      - MONGO_PASSWORD=$MONGO_PASSWORD
+      - MONGO_HOSTNAME=mongo
+      - MONGO_PORT=$MONGO_PORT
+      - MONGO_DB=$MONGO_DB
+      - SESSION_SECRET=$SESSION_SECRET
+      - REDIS_URL=redis://:$REDIS_PASSWORD@cache
+
+  mongo:
+    image: mongo
+    container_name: db
+    restart: always
+    command: ['--auth']
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $MONGO_USERNAME
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
+    volumes:
+      - dbdata:/data/db
+
+  redis:
+    image: redis:alpine
+    container_name: cache
+    restart: always
+    env_file: .env
+    command: redis-server --appendonly yes --requirepass $REDIS_PASSWORD
+    volumes:
+      - redisdata:/data/redis
+
+volumes:
+  dbdata:
+  redisdata:

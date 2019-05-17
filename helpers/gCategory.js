@@ -1,14 +1,19 @@
 const mongoose = require('mongoose');
 const { Category } = require('../models');
+const config = require('../config');
 
-mongoose.connect('mongodb://admin:pass@localhost:27017/biligger', { useNewUrlParser: true });
+mongoose.connect(config.db.url, config.db.options);
 
 const names = ['bilim', 'teknoloji', 'sanat', 'politika', 'ekonomi', 'edebiyat'];
 
 names.forEach(async (val) => {
-  await Category.create({
-    name: val,
-  });
+  try {
+    await Category.create({
+      name: val,
+    });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 setTimeout(() => {

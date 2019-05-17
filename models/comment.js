@@ -13,6 +13,10 @@ const commentSchema = new Schema({
     type: Number,
     default: 0,
   },
+  countReply: {
+    type: Number,
+    default: 0,
+  },
   parent: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -24,6 +28,10 @@ const commentSchema = new Schema({
     enum: ['Post', 'Comment'],
   },
   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  view: {
+    type: Number,
+    default: 0,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

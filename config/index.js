@@ -1,7 +1,40 @@
 const XRegExp = require('xregexp');
+
+const {
+  NODE_ENV,
+
+  MONGO_USERNAME,
+  MONGO_PASSWORD,
+  MONGO_HOSTNAME,
+  MONGO_PORT,
+  MONGO_DB,
+
+  SESSION_SECRET,
+  REDIS_URL,
+} = process.env;
+
 //
 // The configuration options of the server
 //
+
+/**
+ * Mongoose Connection URL
+ */
+
+exports.db = {
+  url: `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`,
+  options: {
+    useNewUrlParser: true,
+  },
+};
+
+/**
+ * Redis Connection URL
+ */
+
+exports.redis = {
+  url: REDIS_URL,
+};
 
 /**
  * Session configuration
@@ -12,7 +45,7 @@ const XRegExp = require('xregexp');
  */
 exports.session = {
   maxAge: 3600000 * 24 * 7 * 52,
-  secret: 'Nothing but secret', // TODO: Change this secret and storage secure
+  secret: SESSION_SECRET,
 };
 
 
@@ -49,6 +82,6 @@ exports.passwordMatch = {
 // };
 
 exports.corsOptions = {
-  origin: 'https://localhost:3001',
+  origin: NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://localhost',
   credentials: true,
 };

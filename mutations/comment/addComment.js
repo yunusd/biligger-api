@@ -15,13 +15,14 @@ module.exports = async (_, args, context) => {
 
   const { id } = await Comment.create(args);
   const comment = await Comment.findById(id).populate('parent');
-  if (comment.parentModel === 'Comment') await Comment.findByIdAndUpdate(comment.parent.id, { $inc: { mainScore: 0.5 } });
+  if (comment.parentModel === 'Comment') await Comment.findByIdAndUpdate(comment.parent.id, { $inc: { mainScore: 0.5, countReply: 1 } });
   await Post.findByIdAndUpdate(comment.parent.id, {
     $push: {
       comment: comment.id,
     },
     $inc: {
       mainScore: 0.5,
+      countReply: 1,
     },
   }, {
     new: true,

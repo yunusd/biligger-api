@@ -1,10 +1,11 @@
 {
   "name": "biligger",
-  "version": "0.2.0",
+  "version": "0.9.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "start": "nodemon ./bin/www",
+    "start:prod": "node ./bin/www",
     "test": "jest",
     "test:watch": "npm test -- --watchAll --detectOpenHandles --verbose --no-cache --runInBand",
     "test:watchOne": "npm test ./test/queries/post/getPost.test.js -- --watchAll --detectOpenHandles --verbose"
@@ -45,6 +46,7 @@
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jest": "^22.5.1",
     "jest": "^24.8.0",
+    "nodemon": "^1.19.0",
     "supertest": "^4.0.2"
   }
 }

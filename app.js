@@ -23,9 +23,7 @@ const rbac = require('./auth/hrbac');
 const rateLimiterRedisMiddleware = require('./middlewares/rateLimiterRedis');
 
 logger.info('Using RedisStore for the session');
-
-const redisClient = redis.createClient();
-
+const redisClient = redis.createClient(config.redis.url);
 
 // Express Config
 const app = express();
@@ -52,14 +50,12 @@ app.use(session({
   secret: config.session.secret,
   store: new RedisStore({
     client: redisClient,
-    host: 'localhost',
-    port: 6379,
   }),
   key: 'authorization.sid',
   cookie: {
-    maxAge: 3600000 * 24 * 7 * 52,
-    secure: true,
-    httpOnly: true,
+    maxAge: config.session.maxAge,
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: process.env.NODE_ENV === 'production',
   },
 }));
 
