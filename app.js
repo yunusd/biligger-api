@@ -47,6 +47,7 @@ app.use(morgan('combined', { stream: logger.stream })); // Logger stream from wi
 app.use(session({
   saveUninitialized: true,
   resave: true,
+  proxy: true,
   secret: config.session.secret,
   store: new RedisStore({
     client: redisClient,
