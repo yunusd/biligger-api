@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const { Post, User } = require('../../models');
+const config = require('../../config');
 
 describe('post', () => {
   let savedPost = {};
   let savedUser = {};
 
-  beforeAll(() => mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true })); // Connection to test database
+  beforeAll(() => mongoose.connect(config.db.testUrl, { useNewUrlParser: true })); // Connection to test database
 
   beforeEach(async (done) => {
     await Post.remove({});
@@ -28,7 +29,12 @@ describe('post', () => {
     done();
   });
 
-  afterEach(() => Post.remove({}));
+  afterEach(() => {
+    return Promise.all([
+      Post.remove({}),
+      User.remove({}),
+    ]);
+  });
 
   afterAll(() => mongoose.disconnect());
 

@@ -3,9 +3,10 @@ require('process').env.OAUTHRECIPES_SURPRESS_TRACE = true;
 const mongoose = require('mongoose');
 const { User } = require('../../models');
 const validate = require('../../auth/validate');
+const config = require('../../config');
 
 describe('validate', () => {
-  beforeAll(() => mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true })); // Connection to test database
+  beforeAll(() => mongoose.connect(config.db.testUrl, { useNewUrlParser: true })); // Connection to test database
 
   let savedUser = {};
 

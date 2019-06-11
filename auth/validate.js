@@ -37,7 +37,7 @@ validate.user = (user, password) => {
   return User.findById(user.id).exec()
     .then((dbUser) => {
       if (!dbUser.verifyPassword(password)) {
-        return validate.logAndThrow('Şifre yanlış!');
+        return validate.logAndThrow('User password does not match');
       }
       return dbUser;
     });
@@ -51,7 +51,7 @@ validate.user = (user, password) => {
  */
 validate.userExists = (user) => {
   if (user == null) {
-    return validate.logAndThrow('Kullanıcı mevcut değil!');
+    return validate.logAndThrow('User does not exist');
   }
   return user;
 };

@@ -4,8 +4,9 @@ const request = require('supertest');
 const app = require('../../app');
 const { User } = require('../../models');
 
+const config = require('../../config');
 describe('Auth', () => {
-  beforeAll(() => mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true })); // Connection to test database
+  beforeAll(() => mongoose.connect(config.db.testUrl, { useNewUrlParser: true })); // Connection to test database
 
   beforeEach(() => {
     const user = new User({

@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 
 const { User } = require('../../models');
+const config = require('../../config');
 
 describe('users', () => {
   let savedUser = {};
 
-  beforeAll(() => mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true }));
+  beforeAll(() => mongoose.connect(config.db.testUrl, { useNewUrlParser: true }));
 
   beforeEach(async (done) => {
     await User.remove({});

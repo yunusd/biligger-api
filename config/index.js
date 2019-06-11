@@ -23,6 +23,7 @@ const {
 
 exports.db = {
   url: `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`,
+  testUrl: `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/test?authSource=admin`,
   options: {
     useNewUrlParser: true,
   },
