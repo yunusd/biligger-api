@@ -1,6 +1,6 @@
 {
   "name": "biligger",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -45,6 +45,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jest": "^22.5.1",
+    "faker": "^4.1.0",
     "jest": "^24.8.0",
     "nodemon": "^1.19.0",
     "supertest": "^4.0.2"

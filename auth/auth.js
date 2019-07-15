@@ -11,7 +11,16 @@ const validate = require('./validate');
  * a user is logged in before asking them to approve the request.
  */
 passport.use(new LocalStrategy((username, password, done) => {
-  User.findOne({ username })
+/**
+ * Letter İ(uppercase) can't be transform to i(lowercase) via toLowerCase().
+ * Instead we need a Turkish-specific case conversion,
+ * available with String#toLocaleLowerCase
+ * but I didn't use that function because all usernames compatible with English.
+ * So instead of that I did use replace() function to replacing
+ * uppercase İ with lowercase i.
+ * Also whitespaces removed from username before querying the user
+ */
+  User.findOne({ username: username.replace(/ /g, '').replace(/İ/g, 'i').toLowerCase() })
     .exec()
     .then(user => validate.user(user, password))
     .then(user => done(null, user, { scope: user.roles }))

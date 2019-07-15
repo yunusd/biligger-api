@@ -3,12 +3,21 @@ const { UserInputError } = require('apollo-server-express');
 const { User, Invite } = require('../../models');
 const { signUpValidation } = require('../../validation');
 
+const {
+  NODE_ENV,
+} = process.env;
+
 module.exports = async (_, args) => {
+  // Removing bio field if is empty.
   if (args.bio === '') delete args.bio;
+
+  // Removing spaces from username field.
+  args.username = args.username.replace(/ /g, '');
+
   await Joi.validate(args, signUpValidation, { abortEarly: false });
 
   const invitationCode = await Invite.findOne({ code: args.invitationCode, used: false });
-  if (!invitationCode) {
+  if (!invitationCode && NODE_ENV !== 'development') {
     throw new UserInputError('Davetiye kodu geçersiz!', {
       invalidArg: {
         name: 'invitationCode',
