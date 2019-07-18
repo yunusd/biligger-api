@@ -3,13 +3,14 @@ const { Notification } = require('../models');
 module.exports = {
   createNotification: async (actor, notifier, opts) => {
     const {
-      entity, entityRef, entityId, message,
+      entity, entityChild, entityRef, entityId, message,
     } = opts;
     if (notifier !== actor) {
       await Notification.create({
         actor,
         notifier,
         entity,
+        entityChild,
         entityRef,
         entityId,
         message,

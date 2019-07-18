@@ -5,6 +5,7 @@ const Notification = `
     count: Int
     message: String
     entity: String
+    entityChild: String
     entityId: Int
     seen: Boolean
     createdAt: Date

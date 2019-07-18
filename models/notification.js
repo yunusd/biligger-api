@@ -10,6 +10,7 @@ const notificationSchema = new Schema({
     required: true,
     refPath: 'parentModel',
   },
+  entityChild: { type: mongoose.Types.ObjectId, ref: 'User' },
   entityRef: {
     type: String,
     required: true,

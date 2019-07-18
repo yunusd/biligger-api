@@ -37,8 +37,9 @@ module.exports = async (_, args, context) => {
   await createNotification(args.author, comment.parent.author, {
     entity: comment.parent.id,
     entityRef: comment.parent.title ? 'Post' : 'Comment',
+    entityChild: comment.id,
     entityId: comment.parent.title ? 3 : 4,
-    message: comment.parent.title || comment.parent.content,
+    message: comment.content,
   });
 
   return comment;

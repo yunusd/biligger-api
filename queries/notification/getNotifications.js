@@ -44,6 +44,7 @@ module.exports = async (_, args, context) => {
         count: { $sum: 1 },
         message: { $last: '$message' },
         entity: { $last: { $toString: '$entity' } },
+        entityChild: { $last: { $toString: '$entityChild' } },
         entityId: { $last: '$entityId' },
         seen: { $last: '$seen' },
         createdAt: { $last: '$createdAt' },
