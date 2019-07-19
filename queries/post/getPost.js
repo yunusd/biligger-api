@@ -42,6 +42,7 @@ module.exports = async (_, args, context) => {
         content: '$content',
         category: '$category',
         countLike: '$countLike',
+        countReply: '$countReply',
         author: '$author',
         createdAt: '$createdAt',
         like: { $eq: [{ $toObjectId: args.user }, '$liked.user'] },

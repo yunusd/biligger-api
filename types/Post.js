@@ -12,6 +12,7 @@ const Post = `
     url: String,
     like: Boolean,
     countLike: Int!,
+    countReply: Int!,
     author: User,
     category: Category,
     createdAt: Date,

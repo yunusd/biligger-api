@@ -40,6 +40,7 @@ module.exports = async (_, args, context) => {
         id: { $toString: '$_id' },
         content: '$content',
         countLike: '$countLike',
+        countReply: '$countReply',
         author: '$author',
         createdAt: '$createdAt',
         parentModel: '$parentModel',

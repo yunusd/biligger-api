@@ -14,6 +14,7 @@ const Comment = `
     parentModel: String,
     like: Boolean,
     countLike: Int!,
+    countReply: Int!,
     author: User,
     createdAt: Date,
   }
