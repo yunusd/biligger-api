@@ -64,6 +64,18 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  active: {
+    type: Boolean,
+    default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  modifiedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 userSchema.pre('save', function (next) {

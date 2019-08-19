@@ -8,6 +8,7 @@ const Category = require('./types/Category');
 const Search = require('./types/Search');
 const Like = require('./types/Like');
 const Notification = require('./types/Notification');
+const Confirmation = require('./types/Confirmation');
 
 const userQueries = require('./queries/user');
 const postQueries = require('./queries/post');
@@ -16,12 +17,14 @@ const commentQueries = require('./queries/comment');
 const searchQueries = require('./queries/search');
 const likeQueries = require('./queries/like');
 const notificationQueries = require('./queries/notification');
+const confirmationQueries = require('./queries/confirmation');
 
 const userMutation = require('./mutations/user');
 const postMutation = require('./mutations/post');
 const commentMutation = require('./mutations/comment');
 const likeMutation = require('./mutations/like');
 const notificationMutation = require('./mutations/notification');
+const confirmationMutation = require('./mutations/confirmation');
 
 const CommentParent = require('./unions/commentParent');
 const LikeParent = require('./unions/likeParent');
@@ -73,12 +76,14 @@ const resolvers = merge(
   searchQueries,
   likeQueries,
   notificationQueries,
+  confirmationQueries,
   // mutations
   userMutation,
   postMutation,
   commentMutation,
   likeMutation,
   notificationMutation,
+  confirmationMutation,
   // union
   CommentParent,
   LikeParent,
@@ -94,6 +99,7 @@ const schema = makeExecutableSchema({
     Search,
     Like,
     Notification,
+    Confirmation,
   ],
   resolvers,
   schemaDirectives: {

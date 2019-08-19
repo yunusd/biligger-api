@@ -14,6 +14,7 @@ const User = `
     degree: String,
     roles: String,
     bio: String,
+    active: Boolean,
   }
 
   extend type Query {
@@ -25,6 +26,7 @@ const User = `
     registerUser(invitationCode: String!, username: String!, password: String!, passwordCheck: String!, email: String!, degree: String, bio: String): User
     editUser(password: String!, newPassword: String, newPasswordCheck: String, email: String, degree: String, bio: String): User @hasScope(actions: ["edit_user", "admin"])
     deleteUser: User @hasScope(actions: ["delete_user", "admin"])
+    resetUserPassword(hash: String!, newPassword: String!, newPasswordCheck: String!): User
   }
 `;
 

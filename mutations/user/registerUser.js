@@ -2,6 +2,7 @@ const Joi = require('joi');
 const { UserInputError } = require('apollo-server-express');
 const { User, Invite } = require('../../models');
 const { signUpValidation } = require('../../validation');
+const { createHash, sendEmail } = require('../../auth/utils');
 
 const {
   NODE_ENV,
@@ -31,6 +32,8 @@ module.exports = async (_, args) => {
   const user = new User(args);
   const savedUser = await user.save();
   if (savedUser) {
+    const { hash } = await createHash({ userId: savedUser.id, action: 1 });
+    await sendEmail(1, { hash, user: savedUser });
     await Invite.findOneAndUpdate({ code: args.invitationCode }, {
       used: true,
     });
