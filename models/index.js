@@ -6,4 +6,5 @@ module.exports.Like = require('./like');
 module.exports.Notification = require('./notification');
 module.exports.Invite = require('./invite');
 module.exports.Confirmation = require('./confirmation');
+module.exports.Report = require('./report');
 // module.exports.Role = require('./role');

@@ -8,7 +8,7 @@ const notificationSchema = new Schema({
   entity: {
     type: Schema.Types.ObjectId,
     required: true,
-    refPath: 'parentModel',
+    refPath: 'entityRef',
   },
   entityChild: { type: mongoose.Types.ObjectId, ref: 'User' },
   entityRef: {
