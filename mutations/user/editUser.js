@@ -7,6 +7,8 @@ const {
   editUserPassword, editUserEmail, editUserDegree, editUserBio,
 } = require('../../validation');
 
+const { createHash, sendEmail } = require('../../auth/utils');
+
 module.exports = async (_, args, context) => {
   const {
     password,
@@ -24,6 +26,8 @@ module.exports = async (_, args, context) => {
   if (context.isAuthenticated.email !== email) {
     const emailExists = await User.findOne({ email });
     if (emailExists) throw Error('E-Posta zaten var');
+  } else {
+    args.email = '';
   }
 
   let pass = null;
@@ -53,12 +57,12 @@ module.exports = async (_, args, context) => {
    */
   const constructData = async (object, hash, exclude) => {
     if (exclude.length > 2) return Error('[exclude] is an array argument and only accept two value');
-
+    if (object.email) object.active = false; // if email is changed than set active to false for confirmation email
     const array = Object.keys(object);
     const newObject = hash || {};
 
     array.map(async (val) => {
-      if (args[val] && val !== exclude[0] && val !== exclude[1]) {
+      if (args[val] !== '' && val !== exclude[0] && val !== exclude[1]) {
         Object.assign(newObject, { [val]: args[val] });
       }
     });
@@ -70,6 +74,13 @@ module.exports = async (_, args, context) => {
   // Finding user with given query and
   // because of 'new:true' option return updated user.
   const user = await User.findByIdAndUpdate(context.isAuthenticated.id, data, { new: true }).exec();
+
+  let emailHash = null;
+  if (user && data.email) {
+    emailHash = await createHash({ userId: user.id, action: 1 });
+  }
+  if (emailHash) await sendEmail(1, { hash: emailHash.hash, user });
+
 
   return user;
 };
