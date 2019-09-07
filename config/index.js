@@ -11,6 +11,8 @@ const {
 
   SESSION_SECRET,
   REDIS_URL,
+
+  SENDGRID_API_KEY,
 } = process.env;
 
 //
@@ -85,4 +87,9 @@ exports.passwordMatch = {
 exports.corsOptions = {
   origin: NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://localhost',
   credentials: true,
+};
+
+// Sendgrid Configuration
+exports.sendGridConf = {
+  API_KEY: SENDGRID_API_KEY,
 };

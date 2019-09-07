@@ -24,7 +24,8 @@ services:
       - MONGO_DB=$MONGO_DB
       - SESSION_SECRET=$SESSION_SECRET
       - REDIS_URL=redis://:$REDIS_PASSWORD@cache
-
+      - SENDGRID_API_KEY=$SENDGRID_API_KEY
+      
   mongo:
     image: mongo
     container_name: db

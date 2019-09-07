@@ -8,6 +8,8 @@ const { editUserPassword } = require('../validation');
 const logger = require('../config/winston');
 const encrypt = require('../helpers/encrypt');
 
+const { sendGridConf } = require('../config');
+
 /**
  * Creates a signed JSON WebToken and returns it.  Utilizes the private certificate to create
  * the signed JWT.  For more options and other things you can change this to, please see:
@@ -104,7 +106,7 @@ module.exports.verifyHash = async ({ hash, action }) => {
 };
 
 module.exports.sendEmail = async (action, data) => {
-  sgMail.setApiKey('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');
+  sgMail.setApiKey(sendGridConf.API_KEY);
 
   const msg = emailTemplate(action, data);
 
