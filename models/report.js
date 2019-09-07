@@ -8,6 +8,7 @@ const reportSchema = new Schema({
   reporter: { type: mongoose.Types.ObjectId, ref: 'User' },
   entity: {
     type: mongoose.Types.ObjectId,
+    required: true,
     refPath: 'entityRef',
   },
   entityRef: {
@@ -23,9 +24,7 @@ const reportSchema = new Schema({
     // type 3: Typing rules
     // type 4: Hate speech
   },
-  message: {
-    type: String,
-  },
+  message: String,
   createdAt: {
     type: Date,
     default: Date.now,

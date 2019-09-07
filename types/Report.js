@@ -16,7 +16,7 @@ const Report = `
   }
 
   extend type Mutation {
-    addReport(actor: ID!, reporter: ID!, entityRef: String!, entityId: Int!, message: String): Report @hasScope(actions: ["report_post", "report_comment"])
+    addReport(actor: ID!, reporter: ID!, entity: ID!, entityRef: String!, entityId: Int!, message: String): Report @hasScope(actions: ["report_post", "report_comment"])
     deleteReport(id: ID!): Report @hasScope(actions: ["admin"])
   }
 `;
