@@ -9,6 +9,9 @@ const cors = require('cors');
 const morgan = require('morgan');
 const redis = require('redis');
 
+// Helpers
+const removeConfirmations = require('./helpers/removeConfirmations');
+
 // Custom Config
 const config = require('./config');
 const logger = require('./config/winston');
@@ -79,6 +82,15 @@ app.use('/api', (req, res, next) => {
     return next();
   })(req, res, next);
 });
+
+// Remove expired confirmations from db in every 25 hours.
+setInterval(async () => {
+  try {
+    await removeConfirmations();
+  } catch (error) {
+    logger.error(error.stack, 'Can\'t remove expired confirmations from db');
+  }
+}, 3600 * 25);
 
 // Catch all for error messages.
 app.use((err, req, res, next) => {
