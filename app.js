@@ -83,14 +83,14 @@ app.use('/api', (req, res, next) => {
   })(req, res, next);
 });
 
-// Remove expired confirmations from db in every 25 hours.
+// Remove expired confirmations from db in every 1 hours.
 setInterval(async () => {
   try {
     await removeConfirmations();
   } catch (error) {
     logger.error(error.stack, 'Can\'t remove expired confirmations from db');
   }
-}, 3600 * 25);
+}, 3600 * 1000);
 
 // Catch all for error messages.
 app.use((err, req, res, next) => {
