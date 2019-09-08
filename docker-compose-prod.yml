@@ -49,6 +49,7 @@ services:
       - SESSION_SECRET=$SESSION_SECRET
       - REDIS_URL=redis://:$REDIS_PASSWORD@cache
       - SENDGRID_API_KEY=$SENDGRID_API_KEY
+      - SENDGRID_SENDER=$SENDGRID_SENDER
 
   mongo:
     container_name: db

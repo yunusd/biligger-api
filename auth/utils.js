@@ -27,7 +27,7 @@ const emailTemplate = (action, data) => {
 
   const welcome = {
     to: `${data.user.email}`,
-    from: 'test@example.com',
+    from: `Biligger <${sendGridConf.SENDER}>`,
     subject: 'Hoşgeldiniz|| Biligger',
     text: 'Hoşgeldiniz',
     html: `
@@ -41,7 +41,7 @@ const emailTemplate = (action, data) => {
 
     const verify = {
       to: `${user.email}`,
-      from: 'test@example.com',
+      from: `Biligger <${sendGridConf.SENDER}>`,
       templateId: 'd-371c9a4b3e46495f879529ffad574255',
       dynamic_template_data: {
         username: user.username,
@@ -51,7 +51,7 @@ const emailTemplate = (action, data) => {
 
     const resetPassword = {
       to: `${user.email}`,
-      from: 'test@example.com',
+      from: `Biligger <${sendGridConf.SENDER}>`,
       templateId: 'd-149e92dd468b4112b0f120f0fc2eab19',
       dynamic_template_data: {
         username: user.username,

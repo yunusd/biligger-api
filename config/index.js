@@ -13,6 +13,7 @@ const {
   REDIS_URL,
 
   SENDGRID_API_KEY,
+  SENDGRID_SENDER,
 } = process.env;
 
 //
@@ -92,4 +93,5 @@ exports.corsOptions = {
 // Sendgrid Configuration
 exports.sendGridConf = {
   API_KEY: SENDGRID_API_KEY,
+  SENDER: SENDGRID_SENDER,
 };
